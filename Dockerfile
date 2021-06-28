@@ -33,6 +33,11 @@ RUN . /opt/ros/$ROS_DISTRO/setup.sh && \
       --ignore-src \
     && rm -rf /var/lib/apt/lists/*
 
+# add sourcing to .bashrc
+RUN echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
+RUN echo "source /usr/share/colcon_cd/function/colcon_cd.sh" >> ~/.bashrc
+RUN echo "export _colcon_cd_root=~/ros2_install" >> ~/.bashrc
+
 # build overlay source
 COPY --from=cacher $OVERLAY_WS/src ./src
 ARG OVERLAY_MIXINS="release"
