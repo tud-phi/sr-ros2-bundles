@@ -27,10 +27,8 @@ WORKDIR $OVERLAY_WS
 COPY --from=cacher /tmp/$OVERLAY_WS/src ./src
 RUN . /opt/ros/$ROS_DISTRO/setup.sh && \
     apt-get update && rosdep install -y \
-      --from-paths \
-        src/ros2/demos/demo_nodes_cpp \
-        src/ros2/demos/demo_nodes_py \
-      --ignore-src \
+      --from-path src \
+      --rosdistro $ROS_DISTRO \
     && rm -rf /var/lib/apt/lists/*
 
 # add sourcing to .bashrc
