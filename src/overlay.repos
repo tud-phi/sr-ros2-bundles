@@ -3,6 +3,6 @@ repositories:
         type: git
         url: https://github.com/ros2/demos.git
         version: "foxy"
-    ros2-vtem-control:
+    vtem_control:
         type: git
-        url: https://github.com/tud-cor-sr/ros2-vtem-control
+        url: https://github.com/tud-cor-sr/ros2-vtem_control
