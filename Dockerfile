@@ -31,19 +31,11 @@ RUN . /opt/ros/$ROS_DISTRO/setup.sh && \
       --rosdistro $ROS_DISTRO \
     && rm -rf /var/lib/apt/lists/*
 
-# add sourcing to .bashrc
-RUN echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
-RUN echo "source /usr/share/colcon_cd/function/colcon_cd.sh" >> ~/.bashrc
-RUN echo "export _colcon_cd_root=~/ros2_install" >> ~/.bashrc
-
 # build overlay source
 COPY --from=cacher $OVERLAY_WS/src ./src
 ARG OVERLAY_MIXINS="release"
 RUN . /opt/ros/$ROS_DISTRO/setup.sh && \
     colcon build \
-      --packages-select \
-        demo_nodes_cpp \
-        demo_nodes_py \
       --mixin $OVERLAY_MIXINS
 
 # source entrypoint setup
@@ -51,6 +43,11 @@ ENV OVERLAY_WS $OVERLAY_WS
 RUN sed --in-place --expression \
       '$isource "$OVERLAY_WS/install/setup.bash"' \
       /ros_entrypoint.sh
+
+# Add ros_entrypoint.sh to .bashrc
+RUN echo "$isource /ros_entrypoint.sh" >> ~/.bashrc
+RUN echo "$isource /usr/share/colcon_cd/function/colcon_cd.sh" >> ~/.bashrc
+RUN echo "export _colcon_cd_root=~/ros2_install" >> ~/.bashrc
 
 # run launch file
 CMD ["ros2", "launch", "demo_nodes_cpp", "talker_listener.launch.py"]
