@@ -1,0 +1,15 @@
+services:
+    sr-ros2:
+      container_name: sr-ros2
+      image: ghcr.io/tud-cor-sr/sr-ros2-bundles:main
+      build:
+        context: .
+        dockerfile: Dockerfile
+        network: host
+      privileged: true
+      environment:
+        - DISPLAY=:0
+        - QT_X11_NO_MITSHM=1
+        - NVIDIA_VISIBLE_DEVICES=all
+        - NVIDIA_DRIVER_CAPABILITIES=compute,graphics,utility,display
+      runtime: nvidia
