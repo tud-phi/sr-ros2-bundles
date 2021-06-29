@@ -45,9 +45,12 @@ RUN sed --in-place --expression \
       /ros_entrypoint.sh
 
 # Add ros_entrypoint.sh to .bashrc
-RUN echo "$isource /ros_entrypoint.sh" >> ~/.bashrc
-RUN echo "$isource /usr/share/colcon_cd/function/colcon_cd.sh" >> ~/.bashrc
+RUN echo "source /ros_entrypoint.sh" >> ~/.bashrc
+RUN echo "source /usr/share/colcon_cd/function/colcon_cd.sh" >> ~/.bashrc
 RUN echo "export _colcon_cd_root=~/ros2_install" >> ~/.bashrc
+
+# source .bashrc
+RUN source ~/.bashrc
 
 # run launch file
 CMD ["ros2", "launch", "demo_nodes_cpp", "talker_listener.launch.py"]
