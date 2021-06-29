@@ -50,7 +50,7 @@ RUN echo "source /usr/share/colcon_cd/function/colcon_cd.sh" >> ~/.bashrc
 RUN echo "export _colcon_cd_root=~/ros2_install" >> ~/.bashrc
 
 # source .bashrc
-RUN source ~/.bashrc
+# RUN source ~/.bashrc
 
 # run launch file
 CMD ["ros2", "launch", "demo_nodes_cpp", "talker_listener.launch.py"]
