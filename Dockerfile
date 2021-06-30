@@ -44,13 +44,17 @@ RUN sed --in-place --expression \
       '$isource "$OVERLAY_WS/install/setup.bash"' \
       /ros_entrypoint.sh
 
-# Add ros_entrypoint.sh to .bashrc
-RUN echo "source /ros_entrypoint.sh" >> ~/.bashrc
+# Add sourcing of workspace to .bashrc
+RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
+RUN echo "source $OVERLAY_WS/install/setup.bash" >> ~/.bashrc
 RUN echo "source /usr/share/colcon_cd/function/colcon_cd.sh" >> ~/.bashrc
 RUN echo "export _colcon_cd_root=~/ros2_install" >> ~/.bashrc
 
 # source .bashrc
 # RUN source ~/.bashrc
 
+# run interactive shell
+CMD ["/bin/bash"]
+
 # run launch file
-CMD ["ros2", "launch", "demo_nodes_cpp", "talker_listener.launch.py"]
+# CMD ["ros2", "launch", "demo_nodes_cpp", "talker_listener.launch.py"]
