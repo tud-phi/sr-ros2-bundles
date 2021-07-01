@@ -14,8 +14,17 @@ docker pull ghcr.io/tud-cor-sr/sr-ros2-bundles:main
 docker push ghcr.io/tud-cor-sr/sr-ros2-bundles:main
 ```
 ### Compose Docker container
+Ubuntu host:
 ```bash
-docker compose run sr-ros2
+docker compose run sr-ros2-ubuntu
+```
+macOS host:
+```bash
+docker compose run sr-ros2-macos
+```
+Windows host:
+```bash
+docker compose run sr-ros2-windows
 ```
 
 ## Some random advice
