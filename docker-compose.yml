@@ -22,6 +22,7 @@ services:
       environment:
         - NVIDIA_VISIBLE_DEVICES=all
         - NVIDIA_DRIVER_CAPABILITIES=compute,graphics,utility,display
+      gpus: all
       network_mode: host
       runtime: nvidia
     sr-ros2-windows:
@@ -33,4 +34,5 @@ services:
         - target: 502
           published: 502
           protocol: tcp
+      gpus: all
       
