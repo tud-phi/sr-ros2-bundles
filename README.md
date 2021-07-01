@@ -1,5 +1,5 @@
 # Soft Robotics ROS2 Docker image
-Repository containing ROS2 Docker images including primary ROS2 packages for operation of soft robot
+Repository containing ROS2 Docker images including core ROS2 packages for operation of soft robot
 ## Usage
 ### Build image
 ```bash
