@@ -22,7 +22,8 @@ services:
       environment:
         - NVIDIA_VISIBLE_DEVICES=all
         - NVIDIA_DRIVER_CAPABILITIES=compute,graphics,utility,display
-      gpus: all
+      # this somehow doesnt work
+      # gpus: all
       network_mode: host
       runtime: nvidia
     sr-ros2-windows:
@@ -41,5 +42,4 @@ services:
         - target: 7413
           published: 7413
           protocol: udp
-      gpus: all
       
