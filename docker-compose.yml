@@ -34,5 +34,12 @@ services:
         - target: 502
           published: 502
           protocol: tcp
+        # CYCLONE_DDS communication between Docker container and host system
+        - target: 7412
+          published: 7412
+          protocol: udp
+        - target: 7413
+          published: 7413
+          protocol: udp
       gpus: all
       
