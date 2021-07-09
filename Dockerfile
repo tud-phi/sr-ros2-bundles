@@ -50,8 +50,20 @@ RUN echo "source $OVERLAY_WS/install/setup.bash" >> ~/.bashrc
 RUN echo "source /usr/share/colcon_cd/function/colcon_cd.sh" >> ~/.bashrc
 RUN echo "export _colcon_cd_root=~/ros2_install" >> ~/.bashrc
 
-# source .bashrc
-# RUN source ~/.bashrc
+# set ROS_DOMAIN_ID
+# ENV ROS_DOMAIN_ID=25
+
+# install RMW middleware
+# RUN apt-get update && \
+#     apt-get install -y ros-$ROS_DISTRO-rmw-cyclonedds-cpp \
+#     && rm -rf /var/lib/apt/lists/*
+# ENV RMW_IMPLEMENTATION="rmw_cyclonedds_cpp"
+
+# # Implement ROS2 networking with CYCLONE_DDS out of container
+# # https://github.com/eclipse-cyclonedds/cyclonedds/issues/677#issuecomment-768966870
+# ENV HOST_ADDR="192.168.200.169"
+# # Using participant index
+# ENV CYCLONEDDS_URI="<CycloneDDS><Domain id='any'><General><ExternalNetworkAddress>${HOST_ADDR}</ExternalNetworkAddress><AllowMulticast>false</AllowMulticast></General><Discovery><ParticipantIndex>1</ParticipantIndex><Peers><Peer address='${HOST_ADDR}'/></Peers></Discovery><Tracing><Verbosity>config</Verbosity><Out>stderr</Out></Tracing></Domain></CycloneDDS>"
 
 # run interactive shell
 CMD ["/bin/bash"]

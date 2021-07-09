@@ -1,6 +1,6 @@
 # Soft Robotics ROS2 Docker image
 Repository containing ROS2 Docker images including core ROS2 packages for operation of soft robot
-## Usage
+## Docker Usage
 ### Build image
 ```bash
 docker compose build
@@ -29,6 +29,16 @@ docker compose run sr-ros2-windows
 
 ## Some random advice
 
+### Set RMW implementation to Cyclon DDS
+On Ubuntu:
+```bash
+export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+```
+On Windows:
+```bash
+set RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+```
+
 ### Sourcing of Workspace
 On Windows:
 ```bash
@@ -50,8 +60,8 @@ In Matlab:
 setenv("ROS_DOMAIN_ID", "25")
 ```
 
-### RMW implementation
-On Windows, we sometimes need to set our RMW implementation manually:
+### Building on Windows
+Source Visual Studio Command prompt:
 ```bash
-set RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
 ```

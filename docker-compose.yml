@@ -36,10 +36,7 @@ services:
           published: 502
           protocol: tcp
         # CYCLONE_DDS communication between Docker container and host system
-        - target: 7412
-          published: 7412
-          protocol: udp
-        - target: 7413
-          published: 7413
-          protocol: udp
+        # https://github.com/eclipse-cyclonedds/cyclonedds/issues/677#issuecomment-768966870
+        # - "192.168.200.169:7412:7412/udp"
+        # - "192.168.200.169:7413:7413/udp"
       
