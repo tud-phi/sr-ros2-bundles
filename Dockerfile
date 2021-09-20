@@ -4,6 +4,9 @@ ARG OVERLAY_WS=/opt/ros/overlay_ws
 # multi-stage for caching
 FROM $FROM_IMAGE AS cacher
 
+# install some general system dependencies
+RUN apt update && apt install -y iputils-ping  && rm -rf /var/lib/apt/lists/*
+
 # clone overlay source
 ARG OVERLAY_WS
 WORKDIR $OVERLAY_WS/src
