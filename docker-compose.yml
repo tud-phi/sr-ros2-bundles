@@ -8,6 +8,11 @@ services:
       environment:
         - DISPLAY=:0
         - QT_X11_NO_MITSHM=1
+      ports:
+        # for communication through MODBUS / TCP with VTEM motion terminal
+        - target: 502
+          published: 502
+          protocol: tcp
       privileged: true
     sr-ros2-macos:
       extends: sr-ros2-core
@@ -31,10 +36,6 @@ services:
       environment: 
         - DISPLAY=host.docker.internal:0
       ports:
-        # for communication through MODBUS / TCP with VTEM motion terminal
-        - target: 502
-          published: 502
-          protocol: tcp
         # CYCLONE_DDS communication between Docker container and host system
         # https://github.com/eclipse-cyclonedds/cyclonedds/issues/677#issuecomment-768966870
         # - "192.168.200.169:7412:7412/udp"
