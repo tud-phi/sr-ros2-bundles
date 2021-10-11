@@ -5,10 +5,7 @@ ARG OVERLAY_WS=/opt/ros/overlay_ws
 FROM $FROM_IMAGE AS cacher
 
 # install some general system dependencies
-RUN apt update && apt install -y iputils-ping  && rm -rf /var/lib/apt/lists/*
-
-# Install eigen3 library
-RUN apt install -y libeigen3-dev
+RUN apt update && apt install -y iputils-ping libeigen3-dev  && rm -rf /var/lib/apt/lists/*
 
 # clone overlay source
 ARG OVERLAY_WS
