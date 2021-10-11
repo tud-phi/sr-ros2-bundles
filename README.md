@@ -26,6 +26,8 @@ docker push ghcr.io/tud-cor-sr/sr-ros2-bundles:main
 
 Ubuntu host:
 
+Make sure you have install the [NVIDIA Container Toolkit](https://github.com/NVIDIA/nvidia-docker), if not follow [these instructions](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker).
+
 ```bash
 docker compose run sr-ros2-ubuntu
 ```

@@ -6,3 +6,6 @@ repositories:
     vtem_control:
         type: git
         url: https://github.com/tud-cor-sr/ros2-vtem_control
+    mocap_optitrack:
+        type: git
+        url: https://github.com/tud-cor-sr/ros2-mocap_optitrack.git
