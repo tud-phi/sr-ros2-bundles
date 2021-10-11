@@ -70,7 +70,8 @@ RUN echo "export _colcon_cd_root=~/ros2_install" >> ~/.bashrc
 # ENV CYCLONEDDS_URI="<CycloneDDS><Domain id='any'><General><ExternalNetworkAddress>${HOST_ADDR}</ExternalNetworkAddress><AllowMulticast>false</AllowMulticast></General><Discovery><ParticipantIndex>1</ParticipantIndex><Peers><Peer address='${HOST_ADDR}'/></Peers></Discovery><Tracing><Verbosity>config</Verbosity><Out>stderr</Out></Tracing></Domain></CycloneDDS>"
 
 # Install eigen3 library
-RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y apt-utils libeigen3-dev
+#SHELL ["/bin/bash", "-c"]
+RUN apt install -y libeigen3-dev
 
 # run interactive shell
 CMD ["/bin/bash"]
