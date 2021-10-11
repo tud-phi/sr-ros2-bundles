@@ -7,6 +7,9 @@ FROM $FROM_IMAGE AS cacher
 # install some general system dependencies
 RUN apt update && apt install -y iputils-ping  && rm -rf /var/lib/apt/lists/*
 
+# Install eigen3 library
+RUN apt install -y libeigen3-dev
+
 # clone overlay source
 ARG OVERLAY_WS
 WORKDIR $OVERLAY_WS/src
@@ -68,10 +71,6 @@ RUN echo "export _colcon_cd_root=~/ros2_install" >> ~/.bashrc
 # ENV HOST_ADDR="192.168.200.169"
 # # Using participant index
 # ENV CYCLONEDDS_URI="<CycloneDDS><Domain id='any'><General><ExternalNetworkAddress>${HOST_ADDR}</ExternalNetworkAddress><AllowMulticast>false</AllowMulticast></General><Discovery><ParticipantIndex>1</ParticipantIndex><Peers><Peer address='${HOST_ADDR}'/></Peers></Discovery><Tracing><Verbosity>config</Verbosity><Out>stderr</Out></Tracing></Domain></CycloneDDS>"
-
-# Install eigen3 library
-#SHELL ["/bin/bash", "-c"]
-RUN apt install -y libeigen3-dev
 
 # run interactive shell
 CMD ["/bin/bash"]
