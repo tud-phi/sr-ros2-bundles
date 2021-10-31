@@ -1,5 +1,7 @@
 ARG FROM_IMAGE=ros:foxy
 ARG OVERLAY_WS=/opt/ros/overlay_ws
+#default value of arg ELASTICA_ADD when not provided in the --build-arg
+ARG ELASTICA_ADD=false 
 
 # multi-stage for caching
 FROM $FROM_IMAGE AS cacher
@@ -34,6 +36,15 @@ RUN . /opt/ros/$ROS_DISTRO/setup.sh && \
       --rosdistro $ROS_DISTRO \
       --ignore-src \
     && rm -rf /var/lib/apt/lists/*
+
+RUN if [ "$ELASTICA_ADD" = "false" ] ; then \
+      echo 'Not adding Elastica'; \
+    else \
+      apt-get update \
+      && apt-get install --no-install-recommends -y tzdata dirmngr gnupg2 build-essential python3-colcon-common-extensions python3-colcon-mixin python3-rosdep python3-vcstool python3-pip  povray python3-tk \
+      && rm -rf /var/lib/apt/lists/* \
+      && pip install pyelastica matplotlib numpy moviepy ffmpeg ; \
+    fi
 
 # build overlay source
 COPY --from=cacher $OVERLAY_WS/src ./src
