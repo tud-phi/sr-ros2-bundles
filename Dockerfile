@@ -7,8 +7,8 @@ FROM $FROM_IMAGE AS cacher
 # install some general system dependencies
 RUN apt update && apt install -y iputils-ping libeigen3-dev  && rm -rf /var/lib/apt/lists/*
 
-#default value of arg ELASTICA_ADD when not provided in the --build-arg
-ARG ELASTICA_ADD="false"
+#default value of arg ELASTICA when not provided in the --build-arg
+ARG ELASTICA=false
 
 # clone overlay & elastica(optional) source
 ARG OVERLAY_WS
@@ -17,7 +17,7 @@ COPY src/overlay.repos ../overlay.repos
 COPY src/elastica.repos ../elastica.repos
 
 RUN vcs import ./ < ../overlay.repos
-RUN if [ "${ELASTICA_ADD}" = "false" ]; then\
+RUN if [ "${ELASTICA}" = false ]; then\
       echo 'Not cloning Elastica';\
     else\
       echo "Cloning Elastica " &&\
@@ -46,14 +46,14 @@ RUN . /opt/ros/$ROS_DISTRO/setup.sh && \
       --ignore-src \
     && rm -rf /var/lib/apt/lists/*
 
-#default value of arg ELASTICA_ADD when not provided in the --build-arg
-ARG ELASTICA_ADD="false"
+#default value of arg ELASTICA when not provided in the --build-arg
+ARG ELASTICA=false
 
 #install ros2-elastica dependencies 
 WORKDIR $OVERLAY_WS
 COPY --from=cacher /tmp/$OVERLAY_WS/src ./src
 
-RUN if [ "${ELASTICA_ADD}" = "false" ]; then\
+RUN if [ "${ELASTICA}" = "false" ]; then\
       echo 'Not installing Elastica';\
     else\
       echo "Installing Elastica " &&\

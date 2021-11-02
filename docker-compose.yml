@@ -6,7 +6,7 @@ services:
         context: .
         dockerfile: Dockerfile
         args:
-          ELASTICA_ADD: "false"
+          ELASTICA: false
 
       environment:
         - DISPLAY

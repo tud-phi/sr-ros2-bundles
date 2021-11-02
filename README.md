@@ -13,7 +13,7 @@ docker-compose build
 ### Build image (with Elastica)
 
 ```bash
-docker-compose build --build-arg ELASTICA_ADD="true"
+docker-compose build --build-arg ELASTICA=true
 ```
 
 ### Pull Docker image
