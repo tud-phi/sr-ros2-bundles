@@ -5,8 +5,11 @@ services:
       build:
         context: .
         dockerfile: Dockerfile
+        args:
+          ELASTICA_ADD: "false"
+
       environment:
-        - DISPLAY=:0
+        - DISPLAY
         - QT_X11_NO_MITSHM=1
       ports:
         # for communication through MODBUS / TCP with VTEM motion terminal

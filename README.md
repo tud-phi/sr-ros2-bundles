@@ -4,10 +4,16 @@ Repository containing ROS2 Docker images including core ROS2 packages for operat
 
 ## Docker Usage
 
-### Build image
+### Build image (without Elastica)
 
 ```bash
-docker compose build
+docker-compose build
+```
+
+### Build image (with Elastica)
+
+```bash
+docker-compose build --build-arg ELASTICA_ADD="true"
 ```
 
 ### Pull Docker image
