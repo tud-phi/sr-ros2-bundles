@@ -5,6 +5,9 @@ services:
       build:
         context: .
         dockerfile: Dockerfile
+        args:
+          ELASTICA_ADD: "false"
+
       environment:
         - DISPLAY
         - QT_X11_NO_MITSHM=1

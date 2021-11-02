@@ -1,0 +1,4 @@
+repositories:
+    elastica:
+        type: git
+        url: https://github.com/tud-cor-sr/ros2-elastica.git

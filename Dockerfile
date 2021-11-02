@@ -7,11 +7,22 @@ FROM $FROM_IMAGE AS cacher
 # install some general system dependencies
 RUN apt update && apt install -y iputils-ping libeigen3-dev  && rm -rf /var/lib/apt/lists/*
 
-# clone overlay source
+#default value of arg ELASTICA_ADD when not provided in the --build-arg
+ARG ELASTICA_ADD="false"
+
+# clone overlay & elastica(optional) source
 ARG OVERLAY_WS
 WORKDIR $OVERLAY_WS/src
 COPY src/overlay.repos ../overlay.repos
+COPY src/elastica.repos ../elastica.repos
+
 RUN vcs import ./ < ../overlay.repos
+RUN if [ "${ELASTICA_ADD}" = "false" ]; then\
+      echo 'Not cloning Elastica';\
+    else\
+      echo "Cloning Elastica " &&\
+      vcs import ./ < ../elastica.repos ;\
+    fi
 
 # copy manifests for caching
 WORKDIR /opt
@@ -38,13 +49,21 @@ RUN . /opt/ros/$ROS_DISTRO/setup.sh && \
 #default value of arg ELASTICA_ADD when not provided in the --build-arg
 ARG ELASTICA_ADD="false"
 
-# ros2-elastica dependencies
+#install ros2-elastica dependencies 
+WORKDIR $OVERLAY_WS
+COPY --from=cacher /tmp/$OVERLAY_WS/src ./src
+
 RUN if [ "${ELASTICA_ADD}" = "false" ]; then\
-      echo 'Not adding Elastica';\
+      echo 'Not installing Elastica';\
     else\
-      echo "Adding Elastica " &&\
+      echo "Installing Elastica " &&\
+      . /opt/ros/$ROS_DISTRO/setup.sh &&\
+      apt-get update && rosdep install -y\
+        --from-path src \
+        --rosdistro $ROS_DISTRO \
+        --ignore-src &&\
       apt-get update &&\
-      apt-get install --no-install-recommends -y tzdata dirmngr gnupg2 build-essential python3-colcon-common-extensions python3-colcon-mixin python3-rosdep python3-vcstool python3-pip  povray python3-tk &&\
+      apt-get install --no-install-recommends -y python3-pip  povray python3-tk &&\
       rm -rf /var/lib/apt/lists/* &&\
       pip install pyelastica matplotlib numpy moviepy ffmpeg ;\
     fi
