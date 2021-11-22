@@ -6,9 +6,6 @@ ARG OVERLAY_WS=/opt/ros/overlay_ws
 # multi-stage for caching
 FROM $FROM_IMAGE AS cacher
 
-# install some general system dependencies
-RUN apt update && apt install -y iputils-ping libeigen3-dev  && rm -rf /var/lib/apt/lists/*
-
 # install ros2 visualization tools
 RUN apt update && apt install -y ros-$ROS_DISTRO-rqt ros-$ROS_DISTRO-rviz2  && rm -rf /var/lib/apt/lists/*
 
@@ -40,6 +37,11 @@ RUN mkdir -p /tmp/opt && \
 # multi-stage for building
 FROM $FROM_IMAGE AS builder
 
+# install some general system dependencies
+RUN apt update && apt install -y --no-install-recommends \
+    iputils-ping libeigen3-dev python3-pip python3-tk &&\
+    rm -rf /var/lib/apt/lists/*
+
 # install overlay dependencies
 ARG OVERLAY_WS
 WORKDIR $OVERLAY_WS
@@ -66,7 +68,7 @@ RUN if [ "${ELASTICA}" = "false" ]; then\
         --rosdistro $ROS_DISTRO \
         --ignore-src &&\
       apt-get update &&\
-      apt-get install --no-install-recommends -y python3-pip  povray python3-tk &&\
+      apt-get install --no-install-recommends -y povray &&\
       rm -rf /var/lib/apt/lists/* &&\
       pip install pyelastica matplotlib numpy moviepy ffmpeg ;\
     fi
