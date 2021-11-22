@@ -1,4 +1,6 @@
-ARG FROM_IMAGE=ros:foxy
+ARG ROS2_VERSION=galactic
+
+ARG FROM_IMAGE=ros:${ROS2_VERSION}
 ARG OVERLAY_WS=/opt/ros/overlay_ws
 
 # multi-stage for caching
