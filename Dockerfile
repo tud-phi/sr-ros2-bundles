@@ -9,6 +9,9 @@ FROM $FROM_IMAGE AS cacher
 # install some general system dependencies
 RUN apt update && apt install -y iputils-ping libeigen3-dev  && rm -rf /var/lib/apt/lists/*
 
+# install ros2 visualization tools
+RUN apt update && apt install -y ros-$ROS_DISTRO-rqt ros-$ROS_DISTRO-rviz2  && rm -rf /var/lib/apt/lists/*
+
 #default value of arg ELASTICA when not provided in the --build-arg
 ARG ELASTICA=false
 
@@ -50,11 +53,9 @@ RUN . /opt/ros/$ROS_DISTRO/setup.sh && \
 
 # default value of arg ELASTICA when not provided in the --build-arg
 ARG ELASTICA=false
-
 # install ros2-elastica dependencies 
 WORKDIR $OVERLAY_WS
 COPY --from=cacher /tmp/$OVERLAY_WS/src ./src
-
 RUN if [ "${ELASTICA}" = "false" ]; then\
       echo 'Not installing Elastica';\
     else\
