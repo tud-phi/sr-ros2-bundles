@@ -13,10 +13,10 @@ ARG ELASTICA=false
 # clone overlay & elastica(optional) source
 ARG OVERLAY_WS
 WORKDIR $OVERLAY_WS/src
-COPY src/overlay.repos ../overlay.repos
+COPY src/core.repos ../core.repos
 COPY src/elastica.repos ../elastica.repos
 
-RUN vcs import ./ < ../overlay.repos
+RUN vcs import ./ < ../core.repos
 RUN if [ "${ELASTICA}" = false ]; then\
       echo 'Not cloning Elastica';\
     else\
@@ -46,10 +46,10 @@ RUN . /opt/ros/$ROS_DISTRO/setup.sh && \
       --ignore-src \
     && rm -rf /var/lib/apt/lists/*
 
-#default value of arg ELASTICA when not provided in the --build-arg
+# default value of arg ELASTICA when not provided in the --build-arg
 ARG ELASTICA=false
 
-#install ros2-elastica dependencies 
+# install ros2-elastica dependencies 
 WORKDIR $OVERLAY_WS
 COPY --from=cacher /tmp/$OVERLAY_WS/src ./src
 

@@ -1,0 +1,10 @@
+repositories:
+    mocap_optitrack:
+        type: git
+        url: https://github.com/tud-cor-sr/ros2-mocap_optitrack.git
+    pneumatic_actuation:
+        type: git
+        url: https://github.com/tud-cor-sr/ros2-pneumatic_actuation.git
+    vtem_control:
+        type: git
+        url: https://github.com/tud-cor-sr/ros2-vtem_control
