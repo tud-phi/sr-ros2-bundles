@@ -1,13 +1,12 @@
-ARG ROS2_VERSION=galactic
-
-ARG FROM_IMAGE=ros:${ROS2_VERSION}
+ARG FROM_IMAGE=ros:galactic
 ARG OVERLAY_WS=/opt/ros/overlay_ws
 
-# multi-stage for caching
-FROM $FROM_IMAGE AS cacher
+# multi-stage for extending ros2 installation
+FROM $FROM_IMAGE AS ros-desktop
+RUN apt update && apt install -y --no-install-recommends ros-$ROS_DISTRO-desktop ros-$ROS_DISTRO-rqt* && rm -rf /var/lib/apt/lists/*
 
-# install ros2 visualization tools
-RUN apt update && apt install -y ros-$ROS_DISTRO-rqt ros-$ROS_DISTRO-rviz2  && rm -rf /var/lib/apt/lists/*
+# multi-stage for caching
+FROM $FROM_IMAGE as cacher
 
 #default value of arg ELASTICA when not provided in the --build-arg
 ARG ELASTICA=false
@@ -35,7 +34,7 @@ RUN mkdir -p /tmp/opt && \
       xargs cp --parents -t /tmp/opt || true
 
 # multi-stage for building
-FROM $FROM_IMAGE AS builder
+FROM ros-desktop AS sr-ros2-bundles
 
 # install some general system dependencies
 RUN apt update && apt install -y --no-install-recommends \
