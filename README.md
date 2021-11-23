@@ -50,6 +50,22 @@ Windows host:
 docker compose run sr-ros2-windows
 ```
 
+## GUI
+
+### X Server
+
+An X server is required for any GUI usage. The X server is started automatically when the container is started.
+As an X client, [Xming](https://sourceforge.net/projects/xming/) can be used on Windows.
+Please make sure that you allow connections from all clients and most of the time its better to disable OpenGL.
+
+### PlotJuggler
+
+The open-source software PlotJuggler can be used to plot time series data from ROS topics. Please make sure to disable OpenGL in the PlotJuggler settings. It can be launched as follows:
+
+```bash
+ros2 run plotjuggler plotjuggler
+```
+
 ## Some random advice
 
 ### Set RMW implementation to Cyclon DDS

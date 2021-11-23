@@ -3,7 +3,12 @@ ARG OVERLAY_WS=/opt/ros/overlay_ws
 
 # multi-stage for extending ros2 installation
 FROM $FROM_IMAGE AS ros-desktop
-RUN apt update && apt install -y --no-install-recommends ros-$ROS_DISTRO-desktop ros-$ROS_DISTRO-rqt* && rm -rf /var/lib/apt/lists/*
+RUN apt update &&\
+    apt install -y --no-install-recommends\
+      ros-$ROS_DISTRO-desktop\
+      ros-$ROS_DISTRO-rqt*\
+      ros-$ROS_DISTRO-plotjuggler-ros\
+    && rm -rf /var/lib/apt/lists/*
 
 # multi-stage for caching
 FROM $FROM_IMAGE as cacher
