@@ -66,6 +66,18 @@ RUN . /opt/ros/$ROS_DISTRO/setup.sh && \
       --ignore-src \
     && rm -rf /var/lib/apt/lists/*
 
+# install ros2-elastica dependencies 
+WORKDIR $OVERLAY_WS
+COPY --from=cacher /tmp/$OVERLAY_WS/src ./src
+RUN if [ "${ELASTICA}" = "false" ]; then\
+      echo 'Not installing Elastica';\
+    else\
+      echo "Installing Elastica " &&\
+      apt-get update &&\
+      apt-get install --no-install-recommends -y povray &&\
+      rm -rf /var/lib/apt/lists/*;\
+    fi
+
 # build overlay source
 COPY --from=cacher $OVERLAY_WS/src ./src
 ARG OVERLAY_MIXINS="release"
