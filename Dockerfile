@@ -66,25 +66,6 @@ RUN . /opt/ros/$ROS_DISTRO/setup.sh && \
       --ignore-src \
     && rm -rf /var/lib/apt/lists/*
 
-# install ros2-elastica dependencies 
-WORKDIR $OVERLAY_WS
-COPY --from=cacher /tmp/$OVERLAY_WS/src ./src
-RUN if [ "${ELASTICA}" = "false" ]; then\
-      echo 'Not installing Elastica';\
-    else\
-      echo "Installing Elastica " &&\
-      . /opt/ros/$ROS_DISTRO/setup.sh &&\
-      apt-get update && rosdep install -y\
-        --from-path src \
-        --rosdistro $ROS_DISTRO \
-        --ignore-src &&\
-      apt-get update &&\
-      apt-get install --no-install-recommends -y povray &&\
-      rm -rf /var/lib/apt/lists/* &&\
-      pip install pyelastica matplotlib numpy moviepy ffmpeg ;\
-    fi
-
-
 # build overlay source
 COPY --from=cacher $OVERLAY_WS/src ./src
 ARG OVERLAY_MIXINS="release"
