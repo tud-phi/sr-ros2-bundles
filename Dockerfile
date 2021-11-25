@@ -41,10 +41,19 @@ RUN mkdir -p /tmp/opt && \
 # multi-stage for building
 FROM ros-desktop AS sr-ros2-bundles
 
+# default value of arg ELASTICA when not provided in the --build-arg
+ARG ELASTICA=false
+ARG PYTORCH=false
+
 # install some general system dependencies
 RUN apt update && apt install -y --no-install-recommends \
     iputils-ping libeigen3-dev python3-pip python3-tk &&\
     rm -rf /var/lib/apt/lists/*
+
+# install pytorch and libtorch
+RUN if [ "${PYTORCH}" = "true" ]; then\
+      pip3 install torch==1.10.0+cu113 torchvision==0.11.1+cu113 torchaudio==0.10.0+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html;\
+    fi
 
 # install overlay dependencies
 ARG OVERLAY_WS
@@ -57,8 +66,6 @@ RUN . /opt/ros/$ROS_DISTRO/setup.sh && \
       --ignore-src \
     && rm -rf /var/lib/apt/lists/*
 
-# default value of arg ELASTICA when not provided in the --build-arg
-ARG ELASTICA=false
 # install ros2-elastica dependencies 
 WORKDIR $OVERLAY_WS
 COPY --from=cacher /tmp/$OVERLAY_WS/src ./src

@@ -7,6 +7,7 @@ services:
         dockerfile: Dockerfile
         args:
           ELASTICA: false
+          PYTORCH: false
       environment:
         - DISPLAY
         - QT_X11_NO_MITSHM=1
@@ -22,6 +23,12 @@ services:
       build:
         args:
           ELASTICA: true
+    sr-ros2-core-pytorch:
+      container_name: sr-ros2-pytorch
+      image: ghcr.io/tud-cor-sr/sr-ros2-bundles:pytorch
+      build:
+        args:
+          PYTORCH: true
     sr-ros2-macos:
       extends: sr-ros2-core
       volumes:
