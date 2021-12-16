@@ -47,8 +47,9 @@ ARG PYTORCH=false
 ARG SOFA=false
 
 # install some general system dependencies
-RUN apt update && apt install -y --no-install-recommends \
+RUN apt update && apt install -y --no-install-recommends software-properties-common \
     iputils-ping libeigen3-dev python3-pip python3-tk wget unzip zip &&\
+    add-apt-repository -y ppa:deadsnakes/ppa && apt install -y libpython3.7 && add-apt-repository --remove -y ppa:deadsnakes/ppa &&\
     rm -rf /var/lib/apt/lists/*
 
 # install pytorch and libtorch

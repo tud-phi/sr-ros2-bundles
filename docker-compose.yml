@@ -42,6 +42,8 @@ services:
           SOFA: true
       environment:
         - DISPLAY=host.docker.internal:0
+        - QT_QPA_PLATFORM_PLUGIN_PATH=/usr/lib/x86_64-linux-gnu/qt5/plugins
+        - QT_PLUGIN_PATH=/usr/lib/x86_64-linux-gnu/qt5/plugins
 
     sr-ros2-macos:
       extends: sr-ros2-core
