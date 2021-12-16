@@ -44,15 +44,32 @@ FROM ros-desktop AS sr-ros2-bundles
 # default value of arg ELASTICA when not provided in the --build-arg
 ARG ELASTICA=false
 ARG PYTORCH=false
+ARG SOFA=false
 
 # install some general system dependencies
 RUN apt update && apt install -y --no-install-recommends \
-    iputils-ping libeigen3-dev python3-pip python3-tk &&\
+    iputils-ping libeigen3-dev python3-pip python3-tk wget unzip zip &&\
     rm -rf /var/lib/apt/lists/*
 
 # install pytorch and libtorch
 RUN if [ "${PYTORCH}" = "true" ]; then\
       pip3 install torch==1.10.0+cu113 torchvision==0.11.1+cu113 torchaudio==0.10.0+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html;\
+    fi
+
+# download and setup Sofa
+WORKDIR /opt/sofa
+RUN if [ "${SOFA}" == "false" ]; then\
+      echo 'Not installing Sofa';\
+    else\
+      echo 'Installing Sofa';\
+      wget https://github.com/sofa-framework/sofa/releases/download/v21.06.02/SOFA_v21.06.02_Linux.zip &&\
+      unzip SOFA_v21.06.02_Linux.zip;\
+      rm SOFA_v21.06.02_Linux.zip &&\
+      mv SOFA_v21.06.02_Linux sofa_v21.06.02;\
+      echo 'SofaPython3 NO_VERSION' >> sofa_v21.06.02/lib/plugin_list.conf;\
+      echo 'SoftRobots NO_VERSION' >> sofa_v21.06.02/lib/plugin_list.conf;\
+      export QT_QPA_PLATFORM_PLUGIN_PATH=${QTDIR}/plugins &&\
+      export QT_PLUGIN_PATH=${QTDIR}/plugins;\
     fi
 
 # install overlay dependencies
