@@ -5,6 +5,9 @@ repositories:
     pneumatic_actuation:
         type: git
         url: https://github.com/tud-cor-sr/ros2-pneumatic_actuation.git
+    topic_tools:
+        type: git
+        url: https://github.com/ros-tooling/topic_tools
     vtem_control:
         type: git
         url: https://github.com/tud-cor-sr/ros2-vtem_control
