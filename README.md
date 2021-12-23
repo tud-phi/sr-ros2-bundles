@@ -61,8 +61,13 @@ docker compose run sr-ros2-windows
 ### X Server
 
 An X server is required for any GUI usage. The X server is started automatically when the container is started.
-As an X client, [Xming](https://sourceforge.net/projects/xming/) can be used on Windows.
+As an X client, [Xming](https://sourceforge.net/projects/xming/) can be used on Windows and [XQuartz](https://www.xquartz.org/) on macOS.
 Please make sure that you allow connections from all clients and most of the time its better to disable OpenGL.
+
+XQuartz can be started and all connections allowed with:
+```bash
+xhost +
+```
 
 ### PlotJuggler
 
