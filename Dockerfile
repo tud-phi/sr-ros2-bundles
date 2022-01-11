@@ -16,12 +16,14 @@ FROM $FROM_IMAGE as cacher
 #default value of arg ELASTICA when not provided in the --build-arg
 ARG ELASTICA=false
 
-# clone overlay & elastica(optional) source
 ARG OVERLAY_WS
-WORKDIR $OVERLAY_WS/src
-COPY src/core.repos ../core.repos
-COPY src/elastica.repos ../elastica.repos
 
+# copy the contents of the repo src folder to the cache image
+# e.g. copy ./src to $OVERLAY_WS
+COPY ./src $OVERLAY_WS
+
+WORKDIR $OVERLAY_WS/src
+# clone overlay & elastica(optional) source
 RUN vcs import ./ < ../core.repos
 RUN if [ "${ELASTICA}" = false ]; then\
       echo 'Not cloning Elastica';\
@@ -50,15 +52,22 @@ RUN apt update && apt install -y --no-install-recommends \
     iputils-ping libeigen3-dev python3-pip python3-tk &&\
     rm -rf /var/lib/apt/lists/*
 
+ARG OVERLAY_WS
+WORKDIR $OVERLAY_WS
+
+# install pip dependencies
+COPY src/requirements.txt $OVERLAY_WS/requirements.txt
+RUN pip3 install -r requirements.txt
+
 # install pytorch and libtorch
 RUN if [ "${PYTORCH}" = "true" ]; then\
       pip3 install torch==1.10.0+cu113 torchvision==0.11.1+cu113 torchaudio==0.10.0+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html;\
     fi
 
-# install overlay dependencies
-ARG OVERLAY_WS
-WORKDIR $OVERLAY_WS
+# Copy overlay src files
 COPY --from=cacher /tmp/$OVERLAY_WS/src ./src
+
+# install overlay dependencies
 RUN . /opt/ros/$ROS_DISTRO/setup.sh && \
     apt-get update && rosdep install -y \
       --from-path src \
@@ -66,9 +75,7 @@ RUN . /opt/ros/$ROS_DISTRO/setup.sh && \
       --ignore-src \
     && rm -rf /var/lib/apt/lists/*
 
-# install ros2-elastica dependencies 
-WORKDIR $OVERLAY_WS
-COPY --from=cacher /tmp/$OVERLAY_WS/src ./src
+# install ros2-elastica dependencies
 RUN if [ "${ELASTICA}" = "false" ]; then\
       echo 'Not installing Elastica';\
     else\
