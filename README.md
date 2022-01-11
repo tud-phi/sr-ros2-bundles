@@ -7,19 +7,19 @@ Repository containing ROS2 Docker images including core ROS2 packages for operat
 ### Build image (standard)
 
 ```bash
-docker-compose build
+docker compose build
 ```
 
 ### Build image (with Elastica)
 
 ```bash
-docker-compose build --build-arg ELASTICA=true
+docker compose build --build-arg ELASTICA=true
 ```
 
 ### Build image (with PyTorch)
 
 ```bash
-docker-compose build --build-arg PYTORCH=true
+docker compose build --build-arg PYTORCH=true
 ```
 
 ### Pull Docker image
