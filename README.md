@@ -71,10 +71,16 @@ xhost +
 
 ### PlotJuggler
 
-The open-source software PlotJuggler can be used to plot time series data from ROS topics. Please make sure to disable OpenGL in the PlotJuggler settings. It can be launched as follows:
+The open-source software PlotJuggler can be used to plot time series data from ROS topics.
+It can be launched as follows:
 
 ```bash
-ros2 run plotjuggler plotjuggler
+ros2 run plotjuggler plotjuggler --buffer_size 180
+```
+The buffer size flag determines the maximum size of the streaming buffer.
+Please make sure to disable OpenGL on non-linux hosts:
+```bash
+ros2 run plotjuggler plotjuggler --disable_opengl
 ```
 
 ## Some random advice
