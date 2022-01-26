@@ -7,19 +7,19 @@ Repository containing ROS2 Docker images including core ROS2 packages for operat
 ### Build image (standard)
 
 ```bash
-docker-compose build
+docker compose build
 ```
 
 ### Build image (with Elastica)
 
 ```bash
-docker-compose build --build-arg ELASTICA=true
+docker compose build --build-arg ELASTICA=true
 ```
 
 ### Build image (with PyTorch)
 
 ```bash
-docker-compose build --build-arg PYTORCH=true
+docker compose build --build-arg PYTORCH=true
 ```
 
 ### Pull Docker image
@@ -61,15 +61,26 @@ docker compose run sr-ros2-windows
 ### X Server
 
 An X server is required for any GUI usage. The X server is started automatically when the container is started.
-As an X client, [Xming](https://sourceforge.net/projects/xming/) can be used on Windows.
+As an X client, [Xming](https://sourceforge.net/projects/xming/) can be used on Windows and [XQuartz](https://www.xquartz.org/) on macOS.
 Please make sure that you allow connections from all clients and most of the time its better to disable OpenGL.
+
+XQuartz can be started and all connections allowed with:
+```bash
+xhost +
+```
 
 ### PlotJuggler
 
-The open-source software PlotJuggler can be used to plot time series data from ROS topics. Please make sure to disable OpenGL in the PlotJuggler settings. It can be launched as follows:
-
+The open-source software PlotJuggler can be used to plot time series and export CSV data from ROS topics.
+It can be launched as follows:
 ```bash
-ros2 run plotjuggler plotjuggler
+ros2 run plotjuggler plotjuggler --buffer_size 180
+```
+The buffer size flag determines the maximum size of the streaming buffer.
+
+Please make sure to disable OpenGL on non-linux hosts:
+```bash
+ros2 run plotjuggler plotjuggler --disable_opengl
 ```
 
 ## Some random advice
