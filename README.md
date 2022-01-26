@@ -22,6 +22,19 @@ docker compose build --build-arg ELASTICA=true
 docker compose build --build-arg PYTORCH=true
 ```
 
+
+### Build image (with SOFA)
+
+```bash
+# Build with default SOFA version (21.06.02)
+docker compose build --build-arg SOFA=true
+```
+
+```bash
+# Build with specific SOFA version
+docker compose build --build-arg SOFA=true --build-arg SOFA_VERSION=21.12.00
+```
+
 ### Pull Docker image
 
 ```bash

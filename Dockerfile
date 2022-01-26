@@ -46,10 +46,17 @@ FROM ros-desktop AS sr-ros2-bundles
 # default value of arg ELASTICA when not provided in the --build-arg
 ARG ELASTICA=false
 ARG PYTORCH=false
+ARG SOFA=false
+ARG SOFA_VERSION='21.06.02'
 
 # install some general system dependencies
-RUN apt update && apt install -y --no-install-recommends \
-    iputils-ping libeigen3-dev python3-pip python3-tk &&\
+# libpython3.7 is required by the Sofa binaries.
+# In case of conflict with other version of python, consider removing the line
+RUN apt update && apt install -y --no-install-recommends software-properties-common \
+    iputils-ping libeigen3-dev python3-pip python3-tk wget unzip zip;\
+    if [ "${SOFA}" == "true" ]; then\
+      add-apt-repository -y ppa:deadsnakes/ppa && apt install -y libpython3.7 && add-apt-repository --remove -y ppa:deadsnakes/ppa;\
+    fi;\
     rm -rf /var/lib/apt/lists/*
 
 ARG OVERLAY_WS
@@ -63,6 +70,23 @@ RUN pip3 install -r requirements.txt
 RUN if [ "${PYTORCH}" = "true" ]; then\
       pip3 install torch==1.10.0+cu113 torchvision==0.11.1+cu113 torchaudio==0.10.0+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html;\
     fi
+
+WORKDIR /opt/sofa
+RUN if [ "${SOFA}" == "false" ]; then\
+      echo 'Not installing Sofa';\
+    else\
+      echo 'Installing Sofa';\
+      SOFA_NAME = SOFA_v${SOFA_VERSION}_Linux ;\
+      wget https://github.com/sofa-framework/sofa/releases/download/v${SOFA_VERSION}/${SOFA_NAME}.zip &&\
+      unzip ${SOFA_NAME}.zip;\
+      echo 'SofaPython3 NO_VERSION' >> ${SOFA_NAME}/lib/plugin_list.conf;\
+      echo 'SoftRobots NO_VERSION' >> ${SOFA_NAME}/lib/plugin_list.conf;\
+      rm ${SOFA_NAME}.zip &&\
+      mv $SOFA_NAME sofa_v${SOFA_VERSION};\
+      export QT_QPA_PLATFORM_PLUGIN_PATH=${QTDIR}/plugins &&\
+      export QT_PLUGIN_PATH=${QTDIR}/plugins;\
+    fi
+WORKDIR $OVERLAY_WS
 
 # Copy overlay src files
 COPY --from=cacher /tmp/$OVERLAY_WS/src ./src

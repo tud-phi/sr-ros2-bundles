@@ -8,6 +8,7 @@ services:
         args:
           ELASTICA: false
           PYTORCH: false
+          SOFA: false
       environment:
         - DISPLAY
         - QT_X11_NO_MITSHM=1
@@ -17,24 +18,39 @@ services:
           published: 502
           protocol: tcp
       privileged: true
+
     sr-ros2-core-elastica:
       container_name: sr-ros2-elastica
       image: ghcr.io/tud-cor-sr/sr-ros2-bundles:elastica
       build:
         args:
           ELASTICA: true
+
     sr-ros2-core-pytorch:
       container_name: sr-ros2-pytorch
       image: ghcr.io/tud-cor-sr/sr-ros2-bundles:pytorch
       build:
         args:
           PYTORCH: true
+
+    sr-ros2-core-sofa:
+      container_name: sr-ros2-sofa
+      image: ghcr.io/tud-cor-sr/sr-ros2-bundles:sofa
+      build:
+        context: .
+        args:
+          SOFA: true
+      environment:
+        - QT_QPA_PLATFORM_PLUGIN_PATH=/usr/lib/x86_64-linux-gnu/qt5/plugins
+        - QT_PLUGIN_PATH=/usr/lib/x86_64-linux-gnu/qt5/plugins
+
     sr-ros2-macos:
       extends: sr-ros2-core
       volumes:
           - type: bind
             source: /tmp/.X11-unix
             target: /tmp/.X11-unix
+
     sr-ros2-ubuntu:
       extends: sr-ros2-core
       build:
@@ -57,4 +73,3 @@ services:
         # https://github.com/eclipse-cyclonedds/cyclonedds/issues/677#issuecomment-768966870
         # - "192.168.200.169:7412:7412/udp"
         # - "192.168.200.169:7413:7413/udp"
-      
