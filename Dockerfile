@@ -77,9 +77,9 @@ RUN if [ "${SOFA}" == "false" ]; then\
       SOFA_NAME = SOFA_v${SOFA_VERSION}_Linux ;\
       wget https://github.com/sofa-framework/sofa/releases/download/v${SOFA_VERSION}/${SOFA_NAME}.zip &&\
       unzip ${SOFA_NAME}.zip;\
-      rm ${SOFA_NAME}.zip &&\
       echo 'SofaPython3 NO_VERSION' >> ${SOFA_NAME}/lib/plugin_list.conf;\
       echo 'SoftRobots NO_VERSION' >> ${SOFA_NAME}/lib/plugin_list.conf;\
+      rm ${SOFA_NAME}.zip &&\
       mv $SOFA_NAME sofa_v${SOFA_VERSION};\
       export QT_QPA_PLATFORM_PLUGIN_PATH=${QTDIR}/plugins &&\
       export QT_PLUGIN_PATH=${QTDIR}/plugins;\
