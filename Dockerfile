@@ -47,8 +47,11 @@ FROM ros-desktop AS sr-ros2-bundles
 ARG ELASTICA=false
 ARG PYTORCH=false
 ARG SOFA=false
+ARG SOFA_VERSION='21.06.02'
 
 # install some general system dependencies
+# libpython3.7 is required by the Sofa binaries.
+# In case of conflict with other version of python, consider removing the line
 RUN apt update && apt install -y --no-install-recommends software-properties-common \
     iputils-ping libeigen3-dev python3-pip python3-tk wget unzip zip &&\
     add-apt-repository -y ppa:deadsnakes/ppa && apt install -y libpython3.7 && add-apt-repository --remove -y ppa:deadsnakes/ppa &&\
@@ -71,12 +74,13 @@ RUN if [ "${SOFA}" == "false" ]; then\
       echo 'Not installing Sofa';\
     else\
       echo 'Installing Sofa';\
-      wget https://github.com/sofa-framework/sofa/releases/download/v21.06.02/SOFA_v21.06.02_Linux.zip &&\
-      unzip SOFA_v21.06.02_Linux.zip;\
-      rm SOFA_v21.06.02_Linux.zip &&\
-      mv SOFA_v21.06.02_Linux sofa_v21.06.02;\
-      echo 'SofaPython3 NO_VERSION' >> sofa_v21.06.02/lib/plugin_list.conf;\
-      echo 'SoftRobots NO_VERSION' >> sofa_v21.06.02/lib/plugin_list.conf;\
+      SOFA_NAME = SOFA_v${SOFA_VERSION}_Linux ;\
+      wget https://github.com/sofa-framework/sofa/releases/download/v${SOFA_VERSION}/${SOFA_NAME}.zip &&\
+      unzip ${SOFA_NAME}.zip;\
+      rm ${SOFA_NAME}.zip &&\
+      echo 'SofaPython3 NO_VERSION' >> ${SOFA_NAME}/lib/plugin_list.conf;\
+      echo 'SoftRobots NO_VERSION' >> ${SOFA_NAME}/lib/plugin_list.conf;\
+      mv $SOFA_NAME sofa_v${SOFA_VERSION};\
       export QT_QPA_PLATFORM_PLUGIN_PATH=${QTDIR}/plugins &&\
       export QT_PLUGIN_PATH=${QTDIR}/plugins;\
     fi
