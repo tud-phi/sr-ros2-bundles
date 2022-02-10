@@ -68,15 +68,16 @@ RUN pip3 install -r requirements.txt
 
 # install pytorch and libtorch
 RUN if [ "${PYTORCH}" = "true" ]; then\
+      echo 'Installing PyTorch';\
       pip3 install torch==1.10.0+cu113 torchvision==0.11.1+cu113 torchaudio==0.10.0+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html;\
     fi
 
 WORKDIR /opt/sofa
-RUN if [ "${SOFA}" == "false" ]; then\
+RUN if [ "${SOFA}" = "false" ]; then\
       echo 'Not installing Sofa';\
     else\
       echo 'Installing Sofa';\
-      SOFA_NAME = SOFA_v${SOFA_VERSION}_Linux ;\
+      export SOFA_NAME=SOFA_v${SOFA_VERSION}_Linux ;\
       wget https://github.com/sofa-framework/sofa/releases/download/v${SOFA_VERSION}/${SOFA_NAME}.zip &&\
       unzip ${SOFA_NAME}.zip;\
       echo 'SofaPython3 NO_VERSION' >> ${SOFA_NAME}/lib/plugin_list.conf;\
