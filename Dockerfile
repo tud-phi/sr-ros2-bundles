@@ -54,7 +54,7 @@ ARG SOFA_VERSION='21.06.02'
 # In case of conflict with other version of python, consider removing the line
 RUN apt update && apt install -y --no-install-recommends software-properties-common \
     iputils-ping libeigen3-dev python3-pip python3-tk wget unzip zip;\
-    if [ "${SOFA}" == "true" ]; then\
+    if [ "${SOFA}" = "true" ]; then\
       add-apt-repository -y ppa:deadsnakes/ppa && apt install -y libpython3.7 && add-apt-repository --remove -y ppa:deadsnakes/ppa;\
     fi;\
     rm -rf /var/lib/apt/lists/*
