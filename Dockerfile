@@ -33,14 +33,17 @@ RUN if [ "${ELASTICA}" = false ]; then\
     fi
 
 # copy manifests for caching
-# this code generates the following error currently:
-# cp: missing file operand
-# WORKDIR /opt
+WORKDIR /opt
 # RUN mkdir -p /tmp/opt && \
 #     find ./ -name "package.xml" | \
 #       xargs cp --parents -t /tmp/opt && \
 #     find ./ -name "COLCON_IGNORE" | \
 #       xargs cp --parents -t /tmp/opt || true
+RUN mkdir -p /tmp/opt
+RUN find ./ -name "package.xml" | xargs cp --parents -t /tmp/opt
+# this code generates the following error currently:
+# cp: missing file operand
+# RUN find ./ -name "COLCON_IGNORE" | xargs cp --parents -t /tmp/opt || true
 
 # multi-stage for building
 FROM ros-desktop AS sr-ros2-bundles
