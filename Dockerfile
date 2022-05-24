@@ -1,4 +1,4 @@
-ARG FROM_IMAGE=ros:galactic
+ARG FROM_IMAGE=ros:humble
 ARG OVERLAY_WS=/opt/ros/overlay_ws
 
 # multi-stage for extending ros2 installation
