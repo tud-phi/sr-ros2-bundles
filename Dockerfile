@@ -74,7 +74,7 @@ RUN pip3 install -r requirements.txt
 # install pytorch and libtorch
 RUN if [ "${PYTORCH}" = "true" ]; then\
       echo 'Installing PyTorch';\
-      pip3 install torch==1.10.0+cu113 torchvision==0.11.1+cu113 torchaudio==0.10.0+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html;\
+      pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113;\
     fi
 
 WORKDIR /opt/sofa
