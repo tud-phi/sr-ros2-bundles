@@ -1,4 +1,5 @@
 # Soft Robotics ROS2 Docker image
+[![ci-main](https://github.com/tud-cor-sr/sr-ros2-bundles/actions/workflows/main.yml/badge.svg)](https://github.com/tud-cor-sr/sr-ros2-bundles/actions/workflows/main.yml)
 
 Repository containing ROS2 Docker images including core ROS2 packages for operation of soft robot
 
