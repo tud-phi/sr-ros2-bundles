@@ -17,6 +17,12 @@ docker compose build
 docker compose build --build-arg ELASTICA=true
 ```
 
+### Build image (with HSA)
+
+```bash
+docker compose build --build-arg HSA=true
+```
+
 ### Build image (with PyTorch)
 
 ```bash
