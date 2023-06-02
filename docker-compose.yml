@@ -9,6 +9,7 @@ services:
           ELASTICA: false
           PYTORCH: false
           SOFA: false
+          HSA: false
       environment:
         - DISPLAY
         - QT_X11_NO_MITSHM=1
@@ -25,6 +26,13 @@ services:
       build:
         args:
           ELASTICA: true
+
+    sr-ros2-core-hsa:
+      container_name: sr-ros2-hsa
+      image: ghcr.io/tud-cor-sr/sr-ros2-bundles:hsa
+      build:
+        args:
+          HSA: true
 
     sr-ros2-core-pytorch:
       container_name: sr-ros2-pytorch

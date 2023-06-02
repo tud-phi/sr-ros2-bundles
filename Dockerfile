@@ -13,8 +13,9 @@ RUN apt update &&\
 # multi-stage for caching
 FROM $FROM_IMAGE as cacher
 
-#default value of arg ELASTICA when not provided in the --build-arg
+#default value of args when not provided in the --build-arg
 ARG ELASTICA=false
+ARG HSA=false
 
 ARG OVERLAY_WS
 
@@ -30,6 +31,12 @@ RUN if [ "${ELASTICA}" = false ]; then\
     else\
       echo "Cloning Elastica " &&\
       vcs import ./ < ../elastica.repos ;\
+    fi
+RUN if [ "${HSA}" = false ]; then\
+      echo 'Not cloning HSA';\
+    else\
+      echo "Cloning HSA " &&\
+      vcs import ./ < ../hsa.repos ;\
     fi
 
 # copy manifests for caching
@@ -50,6 +57,7 @@ FROM ros-desktop AS sr-ros2-bundles
 
 # default value of arg ELASTICA when not provided in the --build-arg
 ARG ELASTICA=false
+ARG HSA=false
 ARG PYTORCH=false
 ARG SOFA=false
 ARG SOFA_VERSION='21.06.02'
