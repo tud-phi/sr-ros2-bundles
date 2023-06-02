@@ -61,19 +61,19 @@ Ubuntu host:
 Make sure you have install the [NVIDIA Container Toolkit](https://github.com/NVIDIA/nvidia-docker) if you are running on an Ubuntu host, if not follow [these instructions](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker). Please be aware, that the NVIDIA Container Toolkit sometimes requires sudo to run the commands below.
 
 ```bash
-sudo docker compose run sr-ros2-ubuntu
+sudo docker compose run sr-ros2-core-ubuntu
 ```
 
 macOS host:
 
 ```bash
-docker compose run sr-ros2-macos
+docker compose run sr-ros2-core-macos
 ```
 
 Windows host:
 
 ```bash
-docker compose run sr-ros2-windows
+docker compose run sr-ros2-core-windows
 ```
 
 ## GUI

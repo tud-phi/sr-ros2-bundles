@@ -52,14 +52,14 @@ services:
         - QT_QPA_PLATFORM_PLUGIN_PATH=/usr/lib/x86_64-linux-gnu/qt5/plugins
         - QT_PLUGIN_PATH=/usr/lib/x86_64-linux-gnu/qt5/plugins
 
-    sr-ros2-macos:
+    sr-ros2-core-macos:
       extends: sr-ros2-core
       volumes:
           - type: bind
             source: /tmp/.X11-unix
             target: /tmp/.X11-unix
 
-    sr-ros2-ubuntu:
+    sr-ros2-core-ubuntu:
       extends: sr-ros2-core
       build:
         network: host
@@ -72,7 +72,7 @@ services:
           - type: bind
             source: /home
             target: /home
-    sr-ros2-windows:
+    sr-ros2-core-windows:
       extends: sr-ros2-core
       environment: 
         - DISPLAY=host.docker.internal:0
@@ -81,3 +81,12 @@ services:
         # https://github.com/eclipse-cyclonedds/cyclonedds/issues/677#issuecomment-768966870
         # - "192.168.200.169:7412:7412/udp"
         # - "192.168.200.169:7413:7413/udp"
+
+    sr-ros2-hsa-ubuntu:
+      extends: sr-ros2-core-ubuntu
+      image: ghcr.io/tud-cor-sr/sr-ros2-bundles:hsa
+      build:
+        args:
+          HSA: true
+      devices:
+        - /dev/ttyUSB0:/dev/ttyUSB0
