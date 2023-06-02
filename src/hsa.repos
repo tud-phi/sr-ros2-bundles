@@ -3,3 +3,6 @@ repositories:
         type: git
         url: https://github.com/ROBOTIS-GIT/DynamixelSDK
         version: heads/humble-devel
+    ros2_hsa:
+        type: git
+        url: https://github.com/tud-cor-sr/ros2-hsa
