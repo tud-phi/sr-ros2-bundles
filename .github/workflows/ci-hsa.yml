@@ -38,8 +38,9 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          
+      
       - name: Add private SSH key to enable cloning of private repositories
+        # Option 4: https://www.fastruby.io/blog/docker/docker-ssh-keys.html
         run: |
           eval `ssh-agent -s`
           ssh-add - <<< '${{ secrets.GENERAL_DEPLOY_KEY }}'
@@ -50,6 +51,7 @@ jobs:
           context: .
           build-args: |
             HSA=true
-          push: true
-          tags: ghcr.io/tud-cor-sr/sr-ros2-bundles:hsa
           labels: ${{ steps.meta.outputs.labels }}
+          push: true
+          ssh: default
+          tags: ghcr.io/tud-cor-sr/sr-ros2-bundles:hsa
