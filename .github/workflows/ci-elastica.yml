@@ -39,12 +39,17 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
+      - uses: webfactory/ssh-agent@v0.7.0
+        with:
+            ssh-private-key: ${{ secrets.MAIN_PRIVATE_DEPLOY_KEY }}
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
           context: .
           build-args: |
             ELASTICA=true
-          push: true
-          tags: ghcr.io/tud-cor-sr/sr-ros2-bundles:elastica
           labels: ${{ steps.meta.outputs.labels }}
+          push: true
+          ssh: default
+          tags: ghcr.io/tud-cor-sr/sr-ros2-bundles:elastica

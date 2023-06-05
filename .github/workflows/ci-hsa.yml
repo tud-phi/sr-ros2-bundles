@@ -38,16 +38,10 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-      
-      # - name: Add private SSH key to enable cloning of private repositories
-      #   # Option 4: https://www.fastruby.io/blog/docker/docker-ssh-keys.html
-      #   run: |
-      #     eval `ssh-agent -s`
-      #     ssh-add - <<< '${{ secrets.GENERAL_DEPLOY_KEY }}'
 
       - uses: webfactory/ssh-agent@v0.7.0
         with:
-            ssh-private-key: ${{ secrets.GENERAL_DEPLOY_KEY }}
+            ssh-private-key: ${{ secrets.MAIN_PRIVATE_DEPLOY_KEY }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
