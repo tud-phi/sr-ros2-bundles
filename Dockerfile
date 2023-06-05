@@ -28,16 +28,20 @@ RUN apt update &&\
       openssh-client\
     && rm -rf /var/lib/apt/lists/*
 
+# share ssh keys with the container
+# Option 4 in: https://www.fastruby.io/blog/docker/docker-ssh-keys.html
+RUN mkdir -p -m 0700 ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
+
 WORKDIR $OVERLAY_WS/src
 # clone sources
-RUN vcs import ./ < ../core.repos
-RUN if [ "${ELASTICA}" = false ]; then\
+RUN --mount=type=ssh vcs import ./ < ../core.repos
+RUN --mount=type=ssh if [ "${ELASTICA}" = false ]; then\
       echo 'Not cloning Elastica';\
     else\
       echo "Cloning Elastica " &&\
       vcs import ./ < ../elastica.repos ;\
     fi
-RUN if [ "${HSA}" = false ]; then\
+RUN --mount=type=ssh if [ "${HSA}" = false ]; then\
       echo 'Not cloning HSA';\
     else\
       echo "Cloning HSA " &&\
