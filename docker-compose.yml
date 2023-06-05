@@ -54,6 +54,9 @@ services:
 
     sr-ros2-core-macos:
       extends: sr-ros2-core
+      build:
+        ssh: 
+          - default
       volumes:
           - type: bind
             source: /tmp/.X11-unix
@@ -63,6 +66,8 @@ services:
       extends: sr-ros2-core
       build:
         network: host
+        ssh: 
+          - default
       environment:
         - NVIDIA_VISIBLE_DEVICES=all
         - NVIDIA_DRIVER_CAPABILITIES=compute,graphics,utility,display

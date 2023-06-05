@@ -23,16 +23,25 @@ ARG OVERLAY_WS
 # e.g. copy ./src to $OVERLAY_WS
 COPY ./src $OVERLAY_WS
 
+RUN apt update &&\
+    apt install -y --no-install-recommends\
+      openssh-client\
+    && rm -rf /var/lib/apt/lists/*
+
+# share ssh keys with the container
+# Option 4 in: https://www.fastruby.io/blog/docker/docker-ssh-keys.html
+RUN mkdir -p -m 0700 ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
+
 WORKDIR $OVERLAY_WS/src
-# clone overlay & elastica(optional) source
-RUN vcs import ./ < ../core.repos
-RUN if [ "${ELASTICA}" = false ]; then\
+# clone sources
+RUN --mount=type=ssh vcs import ./ < ../core.repos
+RUN --mount=type=ssh if [ "${ELASTICA}" = false ]; then\
       echo 'Not cloning Elastica';\
     else\
       echo "Cloning Elastica " &&\
       vcs import ./ < ../elastica.repos ;\
     fi
-RUN if [ "${HSA}" = false ]; then\
+RUN --mount=type=ssh if [ "${HSA}" = false ]; then\
       echo 'Not cloning HSA';\
     else\
       echo "Cloning HSA " &&\
@@ -66,7 +75,7 @@ ARG SOFA_VERSION='21.06.02'
 # libpython3.7 is required by the Sofa binaries.
 # In case of conflict with other version of python, consider removing the line
 RUN apt update && apt install -y --no-install-recommends software-properties-common \
-    iputils-ping libeigen3-dev python3-pip python3-tk wget unzip zip;\
+    iputils-ping libeigen3-dev openssh-client python3-pip python3-tk wget unzip zip;\
     if [ "${SOFA}" = "true" ]; then\
       add-apt-repository -y ppa:deadsnakes/ppa && apt install -y libpython3.7 && add-apt-repository --remove -y ppa:deadsnakes/ppa;\
     fi;\
