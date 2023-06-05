@@ -23,8 +23,13 @@ ARG OVERLAY_WS
 # e.g. copy ./src to $OVERLAY_WS
 COPY ./src $OVERLAY_WS
 
+RUN apt update &&\
+    apt install -y --no-install-recommends\
+      openssh-client\
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR $OVERLAY_WS/src
-# clone overlay & elastica(optional) source
+# clone sources
 RUN vcs import ./ < ../core.repos
 RUN if [ "${ELASTICA}" = false ]; then\
       echo 'Not cloning Elastica';\
