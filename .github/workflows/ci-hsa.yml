@@ -38,6 +38,11 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          
+      - name: Add private SSH key to enable cloning of private repositories
+        run: |
+          eval `ssh-agent -s`
+          ssh-add - <<< '${{ secrets.GENERAL_DEPLOY_KEY }}'
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
