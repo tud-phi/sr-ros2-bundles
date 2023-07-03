@@ -8,7 +8,7 @@ repositories:
         url: git@github.com:tud-cor-sr/ros2-hsa.git
     jsrm:
         type: git
-        url: git@github.com:tud-cor-sr/jsrm.git
+        url: git@github.com:tud-cor-sr/jax_soft_robot_modelling.git
     hsa_control:
         type: git
         url: git@github.com:tud-cor-sr/hsa_control.git
