@@ -6,3 +6,9 @@ repositories:
     ros2_hsa:
         type: git
         url: git@github.com:tud-cor-sr/ros2-hsa.git
+    jsrm:
+        type: git
+        url: git@github.com:tud-cor-sr/jsrm.git
+    hsa_control:
+        type: git
+        url: git@github.com:tud-cor-sr/hsa_control.git
