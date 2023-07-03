@@ -85,6 +85,7 @@ ARG OVERLAY_WS
 WORKDIR $OVERLAY_WS
 
 # install pip dependencies
+RUN pip3 install --upgrade pip
 COPY src/requirements.txt $OVERLAY_WS/requirements.txt
 RUN pip3 install -r requirements.txt
 
