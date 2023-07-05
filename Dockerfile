@@ -111,6 +111,13 @@ RUN if [ "${SOFA}" = "false" ]; then\
       export QT_PLUGIN_PATH=${QTDIR}/plugins;\
     fi
 WORKDIR $OVERLAY_WS
+RUN if [ "${HSA}" = "false" ]; then\
+      echo 'Not installing HSA dependencies';\
+    else\
+      echo 'Installing HSA dependencies';\
+      wget -P /tmp/sympy http://ftp.de.debian.org/debian/pool/main/s/sympy/python3-sympy_1.11.1-1_all.deb;\
+      dpkg -i /tmp/sympy/python3-sympy_1.11.1-1_all.deb;\
+    fi
 
 # Copy overlay src files
 COPY --from=cacher /tmp/$OVERLAY_WS/src ./src
