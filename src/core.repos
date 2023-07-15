@@ -2,6 +2,9 @@ repositories:
     mocap_optitrack:
         type: git
         url: https://github.com/tud-cor-sr/ros2-mocap_optitrack.git
+    nml_bag:
+        type: git
+        url: https://github.com/ricmua/nml_bag
     pneumatic_actuation:
         type: git
         url: https://github.com/tud-cor-sr/ros2-pneumatic_actuation.git
