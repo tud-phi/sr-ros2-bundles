@@ -5,4 +5,4 @@ repositories:
         version: heads/humble-devel
     ros2_hsa:
         type: git
-        url: git@github.com:tud-cor-sr/ros2-hsa.git
+        url: https://github.com/tud-cor-sr/ros2-hsa
