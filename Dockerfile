@@ -124,7 +124,7 @@ RUN if [ "${HSA}" = "false" ]; then\
     fi
 
 # Copy overlay src files
-COPY --from=cacher /tmp/$OVERLAY_WS/src ./src
+COPY --from=cacher $OVERLAY_WS/src ./src
 
 # install overlay dependencies
 RUN . /opt/ros/$ROS_DISTRO/setup.sh && \
@@ -145,7 +145,6 @@ RUN if [ "${ELASTICA}" = "false" ]; then\
     fi
 
 # build overlay source
-COPY --from=cacher $OVERLAY_WS/src ./src
 ARG OVERLAY_MIXINS="release"
 RUN . /opt/ros/$ROS_DISTRO/setup.sh && \
     colcon build \
