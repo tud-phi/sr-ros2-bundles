@@ -51,5 +51,5 @@ jobs:
             HSA=true
           labels: ${{ steps.meta.outputs.labels }}
           push: true
-          ssh: default
+          # ssh: default
           tags: ghcr.io/tud-cor-sr/sr-ros2-bundles:hsa
