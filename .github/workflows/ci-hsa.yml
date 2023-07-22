@@ -39,12 +39,9 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - uses: webfactory/ssh-agent@v0.7.0
-        with:
-            ssh-private-key: |
-                        ${{ secrets.ROS2_HSA_PRIVATE_DEPLOY_KEY }}
-                        ${{ secrets.HSA_CONTROL_PRIVATE_DEPLOY_KEY }}
-                        ${{ secrets.JSRM_PRIVATE_DEPLOY_KEY }}
+      # - uses: webfactory/ssh-agent@v0.7.0
+      #   with:
+      #       ssh-private-key:
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
@@ -54,5 +51,5 @@ jobs:
             HSA=true
           labels: ${{ steps.meta.outputs.labels }}
           push: true
-          ssh: default
+          # ssh: default
           tags: ghcr.io/tud-cor-sr/sr-ros2-bundles:hsa

@@ -85,13 +85,9 @@ ARG OVERLAY_WS
 WORKDIR $OVERLAY_WS
 
 # install pip dependencies
-RUN pip3 install --upgrade pip
+RUN python3 -m pip install --upgrade pip
 COPY src/requirements.txt $OVERLAY_WS/requirements.txt
 RUN pip3 install -r requirements.txt
-
-# install nml_bag
-# useful for processing ROS2 bag files in Python
-RUN pip3 install src/nml_bag
 
 # install pytorch and libtorch
 RUN if [ "${PYTORCH}" = "true" ]; then\
@@ -115,9 +111,16 @@ RUN if [ "${SOFA}" = "false" ]; then\
       export QT_PLUGIN_PATH=${QTDIR}/plugins;\
     fi
 WORKDIR $OVERLAY_WS
+RUN if [ "${HSA}" = "false" ]; then\
+      echo 'Not installing HSA dependencies';\
+    else\
+      echo 'Installing HSA dependencies';\
+      wget -P /tmp/sympy http://ftp.de.debian.org/debian/pool/main/s/sympy/python3-sympy_1.11.1-1_all.deb;\
+      dpkg -i /tmp/sympy/python3-sympy_1.11.1-1_all.deb;\
+    fi
 
 # Copy overlay src files
-COPY --from=cacher /tmp/$OVERLAY_WS/src ./src
+COPY --from=cacher $OVERLAY_WS/src ./src
 
 # install overlay dependencies
 RUN . /opt/ros/$ROS_DISTRO/setup.sh && \
@@ -126,6 +129,10 @@ RUN . /opt/ros/$ROS_DISTRO/setup.sh && \
       --rosdistro $ROS_DISTRO \
       --ignore-src \
     && rm -rf /var/lib/apt/lists/*
+
+# install nml_bag
+# useful for processing ROS2 bag files in Python
+RUN pip3 install ./src/nml_bag
 
 # install ros2-elastica dependencies
 RUN if [ "${ELASTICA}" = "false" ]; then\
@@ -138,7 +145,6 @@ RUN if [ "${ELASTICA}" = "false" ]; then\
     fi
 
 # build overlay source
-COPY --from=cacher $OVERLAY_WS/src ./src
 ARG OVERLAY_MIXINS="release"
 RUN . /opt/ros/$ROS_DISTRO/setup.sh && \
     colcon build \
