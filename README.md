@@ -1,4 +1,5 @@
 # Soft Robotics ROS2 Docker image
+
 [![ci-main](https://github.com/tud-cor-sr/sr-ros2-bundles/actions/workflows/main.yml/badge.svg)](https://github.com/tud-cor-sr/sr-ros2-bundles/actions/workflows/main.yml)
 
 Repository containing ROS2 Docker images including core ROS2 packages for operation of soft robot
@@ -28,7 +29,6 @@ docker compose build --build-arg HSA=true
 ```bash
 docker compose build --build-arg PYTORCH=true
 ```
-
 
 ### Build image (with SOFA)
 
@@ -85,6 +85,7 @@ As an X client, [Xming](https://sourceforge.net/projects/xming/) can be used on 
 Please make sure that you allow connections from all clients and most of the time its better to disable OpenGL.
 
 XQuartz can be started and all connections allowed with:
+
 ```bash
 xhost +
 ```
@@ -93,12 +94,15 @@ xhost +
 
 The open-source software PlotJuggler can be used to plot time series and export CSV data from ROS topics.
 It can be launched as follows:
+
 ```bash
 ros2 run plotjuggler plotjuggler --buffer_size 180
 ```
+
 The buffer size flag determines the maximum size of the streaming buffer.
 
 Please make sure to disable OpenGL on non-linux hosts:
+
 ```bash
 ros2 run plotjuggler plotjuggler --disable_opengl
 ```
