@@ -89,10 +89,6 @@ RUN python3 -m pip install --upgrade pip
 COPY src/requirements.txt $OVERLAY_WS/requirements.txt
 RUN pip3 install -r requirements.txt
 
-# install nml_bag
-# useful for processing ROS2 bag files in Python
-RUN pip3 install src/nml_bag
-
 # install pytorch and libtorch
 RUN if [ "${PYTORCH}" = "true" ]; then\
       echo 'Installing PyTorch';\
@@ -133,6 +129,10 @@ RUN . /opt/ros/$ROS_DISTRO/setup.sh && \
       --rosdistro $ROS_DISTRO \
       --ignore-src \
     && rm -rf /var/lib/apt/lists/*
+
+# install nml_bag
+# useful for processing ROS2 bag files in Python
+RUN pip3 install ./src/nml_bag
 
 # install ros2-elastica dependencies
 RUN if [ "${ELASTICA}" = "false" ]; then\
