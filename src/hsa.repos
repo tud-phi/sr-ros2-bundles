@@ -9,6 +9,6 @@ repositories:
     jsrm:
         type: git
         url: git@github.com:tud-cor-sr/jax-soft-robot-modelling.git
-    hsa_control:
+    hsa_planar_control:
         type: git
-        url: git@github.com:tud-cor-sr/hsa_control.git
+        url: git@github.com:tud-cor-sr/hsa_planar_control.git
