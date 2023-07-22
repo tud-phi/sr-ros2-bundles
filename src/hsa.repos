@@ -6,9 +6,3 @@ repositories:
     ros2_hsa:
         type: git
         url: git@github.com:tud-cor-sr/ros2-hsa.git
-    jsrm:
-        type: git
-        url: git@github.com:tud-cor-sr/jax-soft-robot-modelling.git
-    hsa_planar_control:
-        type: git
-        url: git@github.com:tud-cor-sr/hsa_planar_control.git
