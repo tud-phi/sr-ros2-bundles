@@ -47,5 +47,4 @@ jobs:
           context: .
           labels: ${{ steps.meta.outputs.labels }}
           push: true
-          ssh: default
           tags: ${{ steps.meta.outputs.tags }}
