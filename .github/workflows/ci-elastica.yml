@@ -47,5 +47,4 @@ jobs:
             ELASTICA=true
           labels: ${{ steps.meta.outputs.labels }}
           push: true
-          ssh: default
           tags: ghcr.io/tud-cor-sr/sr-ros2-bundles:elastica
