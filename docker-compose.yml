@@ -104,3 +104,12 @@ services:
           HSA: true
       devices:
         - /dev/tty.usbserial-*:/dev/tty.usbserial-*
+
+    sr-ros2-hsa-windows:
+      extends: sr-ros2-core-windows
+      image: ghcr.io/tud-cor-sr/sr-ros2-bundles:hsa
+      build:
+        args:
+          HSA: true
+      devices:
+        - COM1:/dev/ttyUSB0
