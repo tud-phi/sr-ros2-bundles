@@ -90,6 +90,16 @@ XQuartz can be started and all connections allowed with:
 xhost +
 ```
 
+#### Running Qt Applications on macOS
+
+Most ROS2 GUI applications such as `rviz2`, `rqt` etc. require the Qt framework. For this to work on a macOS host, we need to run first on the host
+
+```bash
+socat TCP-LISTEN:6000,reuseaddr,fork UNIX-CLIENT:\"$DISPLAY\"
+```
+
+as explained in [this](https://diysar.medium.com/running-qt-application-using-docker-on-macos-x-ad2e9d34532a) tutorial.
+
 ### PlotJuggler
 
 The open-source software PlotJuggler can be used to plot time series and export CSV data from ROS topics.

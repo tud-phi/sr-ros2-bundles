@@ -57,6 +57,8 @@ services:
       build:
         ssh: 
           - default
+      environment: 
+        - DISPLAY=host.docker.internal:0
       volumes:
           - type: bind
             source: /tmp/.X11-unix
