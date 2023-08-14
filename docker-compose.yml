@@ -115,3 +115,11 @@ services:
           HSA: true
       devices:
         - COM1:/dev/ttyUSB0
+
+    sr-ros2-hsa-brain-control-windows:
+      extends: sr-ros2-hsa-windows
+      ports:
+        # for communication with OpenViBE
+        - target: 5678
+          published: 5678
+          protocol: tcp
