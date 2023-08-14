@@ -113,6 +113,3 @@ services:
       build:
         args:
           HSA: true
-      devices:
-        # https://learn.microsoft.com/en-us/virtualization/windowscontainers/deploy-containers/hardware-devices-in-containers
-        - class/86E0D1E0-8089-11D0-9CE4-08003E301F73  # COM ports
