@@ -105,7 +105,7 @@ services:
         args:
           HSA: true
       devices:
-        - /dev/tty.usbserial-*:/dev/tty.usbserial-*
+        - /dev/tty.usbserial-*:/dev/ttyUSB*
 
     sr-ros2-hsa-windows:
       extends: sr-ros2-core-windows
