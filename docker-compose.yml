@@ -114,6 +114,14 @@ services:
         args:
           HSA: true
 
+    sr-ros2-hsa-brain-control-ubuntu:
+      extends: sr-ros2-hsa-ubuntu
+      ports:
+        # for communication with OpenViBE
+        - target: 5678
+          published: 5678
+          protocol: tcp
+
     sr-ros2-hsa-brain-control-windows:
       extends: sr-ros2-hsa-windows
       ports:
