@@ -177,6 +177,9 @@ RUN echo "export _colcon_cd_root=~/ros2_install" >> ~/.bashrc
 # # Using participant index
 # ENV CYCLONEDDS_URI="<CycloneDDS><Domain id='any'><General><ExternalNetworkAddress>${HOST_ADDR}</ExternalNetworkAddress><AllowMulticast>false</AllowMulticast></General><Discovery><ParticipantIndex>1</ParticipantIndex><Peers><Peer address='${HOST_ADDR}'/></Peers></Discovery><Tracing><Verbosity>config</Verbosity><Out>stderr</Out></Tracing></Domain></CycloneDDS>"
 
+# copy the vscode settings to the image
+COPY ./src/vscode_settings.json $OVERLAY_WS/.vscode/settings.json
+
 # run interactive shell
 CMD ["/bin/bash"]
 
