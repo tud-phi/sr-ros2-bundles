@@ -2,7 +2,10 @@ repositories:
     dynamixel_sdk:
         type: git
         url: https://github.com/ROBOTIS-GIT/DynamixelSDK
-        version: heads/humble-devel
+        version: heads/humble-deve
     ros2_hsa:
         type: git
         url: https://github.com/tud-cor-sr/ros2-hsa
+    hsa_planar_control:
+        type: git
+        url: https://github.com/tud-cor-sr/hsa-planar-control
