@@ -6,3 +6,6 @@ repositories:
     ros2_hsa:
         type: git
         url: https://github.com/tud-cor-sr/ros2-hsa
+    hsa_planar_control:
+        type: git
+        url: https://github.com/tud-cor-sr/hsa-planar-control
