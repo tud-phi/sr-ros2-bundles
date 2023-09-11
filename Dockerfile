@@ -139,7 +139,7 @@ RUN pip3 install -e ./src/nml_bag
 RUN if [ "${JAX}" = "true" ]; then\
       wget -P /tmp/sympy http://ftp.de.debian.org/debian/pool/main/s/sympy/python3-sympy_1.11.1-1_all.deb;\
       dpkg -i /tmp/sympy/python3-sympy_1.11.1-1_all.deb;\
-      pip3 install -e ./src/jsrm[dev examples]\
+      pip3 install -e "./src/jsrm[dev, examples]";\
     fi
 
 # install ros2-elastica dependencies
@@ -154,7 +154,7 @@ RUN if [ "${ELASTICA}" = "false" ]; then\
 
 # install hsa-planar-control package and its dependencies
 RUN if [ "${HSA}" = "true" ]; then\
-      pip3 install ./src/hsa_planar_control\
+      pip3 install ./src/hsa_planar_control;\
     fi
 
 # build overlay source
