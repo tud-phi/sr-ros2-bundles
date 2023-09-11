@@ -64,9 +64,11 @@ RUN find ./ -name "package.xml" | xargs cp --parents -t /tmp/opt
 # multi-stage for building
 FROM ros-desktop AS sr-ros2-bundles
 
-# default value of arg ELASTICA when not provided in the --build-arg
+# default value of args when not provided in the --build-arg
 ARG ELASTICA=false
 ARG HSA=false
+# we install jax by default as jax-soft-robot-modelling depends on it
+ARG JAX=true
 ARG PYTORCH=false
 ARG SOFA=false
 ARG SOFA_VERSION='21.06.02'
@@ -89,10 +91,17 @@ RUN python3 -m pip install --upgrade pip
 COPY src/requirements.txt $OVERLAY_WS/requirements.txt
 RUN pip3 install -r requirements.txt
 
+# install jax with GPU support
+# https://github.com/google/jax?tab=readme-ov-file#installation
+RUN if [ "${JAX}" = "true" ]; then\
+      echo 'Installing JAX with GPU support';\
+      pip3 install --upgrade "jax[cuda12_pip]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html;\
+    fi
+
 # install pytorch and libtorch
 RUN if [ "${PYTORCH}" = "true" ]; then\
       echo 'Installing PyTorch';\
-      pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113;\
+      pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118;\
     fi
 
 WORKDIR /opt/sofa
@@ -111,13 +120,6 @@ RUN if [ "${SOFA}" = "false" ]; then\
       export QT_PLUGIN_PATH=${QTDIR}/plugins;\
     fi
 WORKDIR $OVERLAY_WS
-RUN if [ "${HSA}" = "false" ]; then\
-      echo 'Not installing HSA dependencies';\
-    else\
-      echo 'Installing HSA dependencies';\
-      wget -P /tmp/sympy http://ftp.de.debian.org/debian/pool/main/s/sympy/python3-sympy_1.11.1-1_all.deb;\
-      dpkg -i /tmp/sympy/python3-sympy_1.11.1-1_all.deb;\
-    fi
 
 # Copy overlay src files
 COPY --from=cacher $OVERLAY_WS/src ./src
@@ -130,9 +132,15 @@ RUN . /opt/ros/$ROS_DISTRO/setup.sh && \
       --ignore-src \
     && rm -rf /var/lib/apt/lists/*
 
-# install nml_bag
-# useful for processing ROS2 bag files in Python
-RUN pip3 install ./src/nml_bag
+# install pip packages depending on local, cloned repositories
+# nml bag: useful for processing ROS2 bag files in Python
+RUN pip3 install -e ./src/nml_bag
+# install jax soft robot modelling if jax has been installed
+RUN if [ "${JAX}" = "true" ]; then\
+      wget -P /tmp/sympy http://ftp.de.debian.org/debian/pool/main/s/sympy/python3-sympy_1.11.1-1_all.deb;\
+      dpkg -i /tmp/sympy/python3-sympy_1.11.1-1_all.deb;\
+      pip3 install -e "./src/jsrm[dev, examples]";\
+    fi
 
 # install ros2-elastica dependencies
 RUN if [ "${ELASTICA}" = "false" ]; then\
@@ -142,6 +150,11 @@ RUN if [ "${ELASTICA}" = "false" ]; then\
       apt-get update &&\
       apt-get install --no-install-recommends -y povray &&\
       rm -rf /var/lib/apt/lists/*;\
+    fi
+
+# install hsa-planar-control package and its dependencies
+RUN if [ "${HSA}" = "true" ]; then\
+      pip3 install ./src/hsa_planar_control;\
     fi
 
 # build overlay source
@@ -176,6 +189,9 @@ RUN echo "export _colcon_cd_root=~/ros2_install" >> ~/.bashrc
 # ENV HOST_ADDR="192.168.200.169"
 # # Using participant index
 # ENV CYCLONEDDS_URI="<CycloneDDS><Domain id='any'><General><ExternalNetworkAddress>${HOST_ADDR}</ExternalNetworkAddress><AllowMulticast>false</AllowMulticast></General><Discovery><ParticipantIndex>1</ParticipantIndex><Peers><Peer address='${HOST_ADDR}'/></Peers></Discovery><Tracing><Verbosity>config</Verbosity><Out>stderr</Out></Tracing></Domain></CycloneDDS>"
+
+# copy the vscode settings to the image
+COPY ./src/vscode_settings.json $OVERLAY_WS/.vscode/settings.json
 
 # run interactive shell
 CMD ["/bin/bash"]

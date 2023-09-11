@@ -1,0 +1,10 @@
+{
+    "python.analysis.extraPaths": [
+        "/opt/ros/iron/lib/python3.10/site-packages"
+    ],
+    "python.autoComplete.extraPaths": [
+        "/opt/ros/iron/lib/python3.10/site-packages"
+    ],
+    "ros.distro": "iron",
+    "ros.rosSetupScript": "/opt/ros/overlay_ws/install/setup.bash"
+}
