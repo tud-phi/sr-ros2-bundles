@@ -4,6 +4,14 @@
 
 Repository containing ROS2 Docker images including core ROS2 packages for operation of soft robot
 
+## Initialization and sourcing
+
+We have combined some convenience commands related to USB latency and X server access in the `init.sh` script, which can be run as
+
+```bash
+source ./init.sh
+```
+
 ## Docker Usage
 
 ### Build image (standard)
@@ -168,4 +176,12 @@ Source Visual Studio Command prompt:
 
 ```bash
 call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
+```
+
+### Set USB Latency for Dynamixel motors
+
+As explained in the [Dynamixel documentation](https://emanual.robotis.com/docs/en/software/dynamixel/dynamixel_wizard2/#graph-optimization), the default USB latency is 16ms. Usually, we would want to reduce this to 1ms. On Ubuntu, the following command can be run:
+
+```bash
+echo 1 | sudo tee /sys/bus/usb-serial/devices/ttyUSB0/latency_timer
 ```
