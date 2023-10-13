@@ -16,6 +16,7 @@ FROM $FROM_IMAGE as cacher
 #default value of args when not provided in the --build-arg
 ARG ELASTICA=false
 ARG HSA=false
+ARG PNEUMATIC=false
 
 ARG OVERLAY_WS
 
@@ -46,6 +47,12 @@ RUN --mount=type=ssh if [ "${HSA}" = false ]; then\
     else\
       echo "Cloning HSA " &&\
       vcs import ./ < ../hsa.repos ;\
+    fi
+RUN --mount=type=ssh if [ "${PNEUMATIC}" = false ]; then\
+      echo 'Not cloning pneumatic robot dependencies.';\
+    else\
+      echo "Cloning pneumatic robot dependencies." &&\
+      vcs import ./ < ../pneumatic.repos ;\
     fi
 
 # copy manifests for caching
