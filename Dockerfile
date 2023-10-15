@@ -180,8 +180,6 @@ RUN sed --in-place --expression \
 # Add sourcing of workspace to .bashrc
 RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
 RUN echo "source $OVERLAY_WS/install/setup.bash" >> ~/.bashrc
-RUN echo "source /usr/share/colcon_cd/function/colcon_cd.sh" >> ~/.bashrc
-RUN echo "export _colcon_cd_root=~/ros2_install" >> ~/.bashrc
 
 # set ROS_DOMAIN_ID
 # ENV ROS_DOMAIN_ID=25
