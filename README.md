@@ -95,7 +95,7 @@ Please make sure that you allow connections from all clients and most of the tim
 XQuartz can be started and all connections allowed with:
 
 ```bash
-xhost +
+xhost +local:all
 ```
 
 #### Running Qt Applications on macOS
