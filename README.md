@@ -20,16 +20,34 @@ source ./init.sh
 docker compose build
 ```
 
+### Build image for pneumatic robots
+
+```bash
+docker compose build --build-arg PNEUMATIC=true
+```
+
+or alternatively
+
+```bash
+docker compose build sr-ros2-pneumatic-ubuntu
+```
+
+### Build image for HSA robots
+
+```bash
+docker compose build --build-arg HSA=true
+```
+
+or alternatively
+
+```bash
+docker compose build sr-ros2-hsa-ubuntu
+```
+
 ### Build image (with Elastica)
 
 ```bash
 docker compose build --build-arg ELASTICA=true
-```
-
-### Build image (with HSA)
-
-```bash
-docker compose build --build-arg HSA=true
 ```
 
 ### Build image (with PyTorch)

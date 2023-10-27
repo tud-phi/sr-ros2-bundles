@@ -27,13 +27,6 @@ services:
         args:
           ELASTICA: true
 
-    sr-ros2-core-hsa:
-      container_name: sr-ros2-hsa
-      image: ghcr.io/tud-cor-sr/sr-ros2-bundles:hsa
-      build:
-        args:
-          HSA: true
-
     sr-ros2-core-pytorch:
       container_name: sr-ros2-pytorch
       image: ghcr.io/tud-cor-sr/sr-ros2-bundles:pytorch
@@ -89,6 +82,13 @@ services:
         # - "192.168.200.169:7412:7412/udp"
         # - "192.168.200.169:7413:7413/udp"
 
+    sr-ros2-pneumatic-ubuntu:
+      extends: sr-ros2-core-ubuntu
+      image: ghcr.io/tud-cor-sr/sr-ros2-bundles:pneumatic
+      build:
+        args:
+          PNEUMATIC: true
+
     sr-ros2-hsa-ubuntu:
       extends: sr-ros2-core-ubuntu
       image: ghcr.io/tud-cor-sr/sr-ros2-bundles:hsa
@@ -97,7 +97,7 @@ services:
           HSA: true
       devices:
         - /dev/ttyUSB0:/dev/ttyUSB0
-
+        - /dev/snd:/dev/snd
     sr-ros2-hsa-macos:
       extends: sr-ros2-core-macos
       image: ghcr.io/tud-cor-sr/sr-ros2-bundles:hsa
@@ -107,23 +107,8 @@ services:
       devices:
         - /dev/tty.usbserial-*:/dev/ttyUSB*
 
-    sr-ros2-hsa-windows:
-      extends: sr-ros2-core-windows
-      image: ghcr.io/tud-cor-sr/sr-ros2-bundles:hsa
-      build:
-        args:
-          HSA: true
-
     sr-ros2-hsa-brain-control-ubuntu:
       extends: sr-ros2-hsa-ubuntu
-      ports:
-        # for communication with OpenViBE
-        - target: 5678
-          published: 5678
-          protocol: tcp
-
-    sr-ros2-hsa-brain-control-windows:
-      extends: sr-ros2-hsa-windows
       ports:
         # for communication with OpenViBE
         - target: 5678
