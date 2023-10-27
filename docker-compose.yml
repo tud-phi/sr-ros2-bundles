@@ -97,6 +97,7 @@ services:
           HSA: true
       devices:
         - /dev/ttyUSB0:/dev/ttyUSB0
+        - /dev/snd:/dev/snd
     sr-ros2-hsa-macos:
       extends: sr-ros2-core-macos
       image: ghcr.io/tud-cor-sr/sr-ros2-bundles:hsa
