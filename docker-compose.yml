@@ -87,7 +87,8 @@ services:
         - type: bind
           source: /tmp/pulseaudio_client.conf
           target: /etc/pulse/client.conf
-      # user: 1000:1000
+      # THIS BIT!!!1!
+      user: ${CURRENT_UID}
     sr-ros2-core-windows:
       extends: sr-ros2-core
       environment: 
