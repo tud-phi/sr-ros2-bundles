@@ -72,6 +72,22 @@ services:
           - type: bind
             source: /home
             target: /home
+    sr-ros2-core-ubuntu-with-audio:
+      extends: sr-ros2-core-ubuntu
+      environment:
+        # https://github.com/mviereck/x11docker/wiki/Container-sound:-ALSA-or-Pulseaudio#pulseaudio-with-shared-socket
+        - PULSE_SERVER=unix:/tmp/pulseaudio.socket
+        - PULSE_COOKIE=/tmp/pulseaudio.cookie
+      devices:
+        - /dev/snd:/dev/snd
+      volumes:
+        - type: bind
+          source: /tmp/pulseaudio.socket
+          target: /tmp/pulseaudio.socket
+        - type: bind
+          source: /tmp/pulseaudio_client.conf
+          target: /etc/pulse/client.conf
+      # user: 1000:1000
     sr-ros2-core-windows:
       extends: sr-ros2-core
       environment: 
