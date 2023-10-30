@@ -162,7 +162,7 @@ RUN if [ "${ELASTICA}" = "false" ]; then\
 
 # install hsa-planar-control package and its dependencies
 RUN if [ "${HSA}" = "true" ]; then\
-      apt-get update && apt-get install mpg123 && pip3 install ./src/hsa_planar_control;\
+      pip3 install ./src/hsa_planar_control;\
     fi
 
 # build overlay source
