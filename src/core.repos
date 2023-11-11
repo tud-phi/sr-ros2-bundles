@@ -10,7 +10,7 @@ repositories:
         url: https://github.com/ricmua/nml_bag
     ros2-keyboard:
         type: git
-        url: https://github.com/tud-cor-sr/ros2-keyboard
+        url: https://github.com/cmower/ros2-keyboard
     topic_tools:
         type: git
         url: https://github.com/ros-tooling/topic_tools
