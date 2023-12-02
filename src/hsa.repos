@@ -5,7 +5,7 @@ repositories:
         version: heads/humble-devel
     ros2_hsa:
         type: git
-        url: https://github.com/tud-cor-sr/ros2-hsa
+        url: https://github.com/tud-phi/ros2-hsa
     hsa_planar_control:
         type: git
-        url: https://github.com/tud-cor-sr/hsa-planar-control
+        url: https://github.com/tud-phi/hsa-planar-control
