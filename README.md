@@ -1,6 +1,6 @@
 # Soft Robotics ROS2 Docker image
 
-[![ci-main](https://github.com/tud-cor-sr/sr-ros2-bundles/actions/workflows/main.yml/badge.svg)](https://github.com/tud-cor-sr/sr-ros2-bundles/actions/workflows/main.yml)
+[![ci-main](https://github.com/tud-phi/sr-ros2-bundles/actions/workflows/main.yml/badge.svg)](https://github.com/tud-phi/sr-ros2-bundles/actions/workflows/main.yml)
 
 Repository containing ROS2 Docker images including core ROS2 packages for operation of soft robot
 
@@ -71,13 +71,13 @@ docker compose build --build-arg SOFA=true --build-arg SOFA_VERSION=21.12.00
 ### Pull Docker image
 
 ```bash
-docker pull ghcr.io/tud-cor-sr/sr-ros2-bundles:main
+docker pull ghcr.io/tud-phi/sr-ros2-bundles:main
 ```
 
 ### Push Docker image
 
 ```bash
-docker push ghcr.io/tud-cor-sr/sr-ros2-bundles:main
+docker push ghcr.io/tud-phi/sr-ros2-bundles:main
 ```
 
 ### Compose Docker container
