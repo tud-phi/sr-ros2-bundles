@@ -47,4 +47,4 @@ jobs:
             ELASTICA=true
           labels: ${{ steps.meta.outputs.labels }}
           push: true
-          tags: ghcr.io/tud-cor-sr/sr-ros2-bundles:elastica
+          tags: ghcr.io/tud-phi/sr-ros2-bundles:elastica

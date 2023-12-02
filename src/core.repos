@@ -1,10 +1,10 @@
 repositories:
     jsrm:
         type: git
-        url: https://github.com/tud-cor-sr/jax-soft-robot-modelling
+        url: https://github.com/tud-phi/jax-soft-robot-modelling
     mocap_optitrack:
         type: git
-        url: https://github.com/tud-cor-sr/ros2-mocap_optitrack.git
+        url: https://github.com/tud-phi/ros2-mocap_optitrack.git
     nml_bag:
         type: git
         url: https://github.com/ricmua/nml_bag

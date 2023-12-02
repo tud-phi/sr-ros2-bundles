@@ -52,4 +52,4 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           push: true
           # ssh: default
-          tags: ghcr.io/tud-cor-sr/sr-ros2-bundles:hsa
+          tags: ghcr.io/tud-phi/sr-ros2-bundles:hsa

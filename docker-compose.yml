@@ -1,7 +1,7 @@
 services:
     sr-ros2-core:
       container_name: sr-ros2
-      image: ghcr.io/tud-cor-sr/sr-ros2-bundles:main
+      image: ghcr.io/tud-phi/sr-ros2-bundles:main
       build:
         context: .
         dockerfile: Dockerfile
@@ -22,21 +22,21 @@ services:
 
     sr-ros2-core-elastica:
       container_name: sr-ros2-elastica
-      image: ghcr.io/tud-cor-sr/sr-ros2-bundles:elastica
+      image: ghcr.io/tud-phi/sr-ros2-bundles:elastica
       build:
         args:
           ELASTICA: true
 
     sr-ros2-core-pytorch:
       container_name: sr-ros2-pytorch
-      image: ghcr.io/tud-cor-sr/sr-ros2-bundles:pytorch
+      image: ghcr.io/tud-phi/sr-ros2-bundles:pytorch
       build:
         args:
           PYTORCH: true
 
     sr-ros2-core-sofa:
       container_name: sr-ros2-sofa
-      image: ghcr.io/tud-cor-sr/sr-ros2-bundles:sofa
+      image: ghcr.io/tud-phi/sr-ros2-bundles:sofa
       build:
         context: .
         args:
@@ -84,14 +84,14 @@ services:
 
     sr-ros2-pneumatic-ubuntu:
       extends: sr-ros2-core-ubuntu
-      image: ghcr.io/tud-cor-sr/sr-ros2-bundles:pneumatic
+      image: ghcr.io/tud-phi/sr-ros2-bundles:pneumatic
       build:
         args:
           PNEUMATIC: true
 
     sr-ros2-hsa-ubuntu:
       extends: sr-ros2-core-ubuntu
-      image: ghcr.io/tud-cor-sr/sr-ros2-bundles:hsa
+      image: ghcr.io/tud-phi/sr-ros2-bundles:hsa
       build:
         args:
           HSA: true
@@ -100,7 +100,7 @@ services:
         - /dev/snd:/dev/snd
     sr-ros2-hsa-macos:
       extends: sr-ros2-core-macos
-      image: ghcr.io/tud-cor-sr/sr-ros2-bundles:hsa
+      image: ghcr.io/tud-phi/sr-ros2-bundles:hsa
       build:
         args:
           HSA: true
