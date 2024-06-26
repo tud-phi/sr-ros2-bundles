@@ -103,7 +103,7 @@ RUN pip3 install -r requirements.txt
 # https://github.com/google/jax?tab=readme-ov-file#installation
 RUN if [ "${JAX}" = "true" ]; then\
       echo 'Installing JAX with GPU support';\
-      pip3 install --upgrade "jax[cuda12]"
+      pip3 install --upgrade "jax[cuda12]";\
     fi
 
 # install pytorch and libtorch
