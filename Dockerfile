@@ -178,7 +178,6 @@ RUN sed --in-place --expression \
       /ros_entrypoint.sh
 
 # Add sourcing of workspace to .bashrc
-RUN echo "source /opt/ros/colcon_venv/venv/bin/activate" >> ~/.bashrc
 RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
 RUN echo "source $OVERLAY_WS/install/setup.bash" >> ~/.bashrc
 RUN echo "source /usr/share/colcon_cd/function/colcon_cd.sh" >> ~/.bashrc
