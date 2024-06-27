@@ -85,7 +85,7 @@ ARG SOFA_VERSION='21.06.02'
 # libpython3.7 is required by the Sofa binaries.
 # In case of conflict with other version of python, consider removing the line
 RUN apt update && apt install -y --no-install-recommends software-properties-common \
-    gh htop iputils-ping libeigen3-dev libsdl1.2-dev nvtop openssh-client python3-pip python3-tk vim wget unzip zip;\
+    gh git-lfs htop iputils-ping libeigen3-dev libsdl1.2-dev nvtop openssh-client python3-pip python3-tk vim wget unzip zip;\
     if [ "${SOFA}" = "true" ]; then\
       add-apt-repository -y ppa:deadsnakes/ppa && apt install -y libpython3.7 && add-apt-repository --remove -y ppa:deadsnakes/ppa;\
     fi;\
