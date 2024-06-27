@@ -1,4 +1,4 @@
-ARG FROM_IMAGE=ros:iron
+ARG FROM_IMAGE=ros:jazzy
 ARG OVERLAY_WS=/opt/ros/overlay_ws
 
 # multi-stage for extending ros2 installation
@@ -71,6 +71,8 @@ RUN find ./ -name "package.xml" | xargs cp --parents -t /tmp/opt
 # multi-stage for building
 FROM ros-desktop AS sr-ros2-bundles
 
+SHELL ["/bin/bash", "-c"] 
+
 # default value of args when not provided in the --build-arg
 ARG ELASTICA=false
 ARG HSA=false
@@ -85,7 +87,7 @@ ARG SOFA_VERSION='21.06.02'
 # libpython3.7 is required by the Sofa binaries.
 # In case of conflict with other version of python, consider removing the line
 RUN apt update && apt install -y --no-install-recommends software-properties-common \
-    gh git-lfs htop iputils-ping libeigen3-dev libsdl1.2-dev nvtop openssh-client python3-pip python3-tk vim wget unzip zip;\
+    gh git-lfs htop iputils-ping libeigen3-dev libsdl1.2-dev nvtop openssh-client python3-venv vim wget unzip zip;\
     if [ "${SOFA}" = "true" ]; then\
       add-apt-repository -y ppa:deadsnakes/ppa && apt install -y libpython3.7 && add-apt-repository --remove -y ppa:deadsnakes/ppa;\
     fi;\
@@ -94,22 +96,33 @@ RUN apt update && apt install -y --no-install-recommends software-properties-com
 ARG OVERLAY_WS
 WORKDIR $OVERLAY_WS
 
+# create virtual environment
+RUN mkdir -p /opt/ros/colcon_venv/src
+# Make a virtual env and activate it
+ENV VENV_PATH=/opt/ros/colcon_venv/venv
+RUN python3 -m venv $VENV_PATH &&\
+    source $VENV_PATH/bin/activate
+ENV PIP_PATH=/opt/ros/colcon_venv/venv/bin/pip3
+# Upgrade pip
+RUN $PIP_PATH install --upgrade pip setuptools wheel
+# Make sure that colcon doesn’t try to build the venv
+RUN touch /opt/ros/colcon_venv/venv/COLCON_IGNORE
+
 # install pip dependencies
-RUN python3 -m pip install --upgrade pip
 COPY src/requirements.txt $OVERLAY_WS/requirements.txt
-RUN pip3 install -r requirements.txt
+RUN $PIP_PATH install -r requirements.txt
 
 # install jax with GPU support
 # https://github.com/google/jax?tab=readme-ov-file#installation
 RUN if [ "${JAX}" = "true" ]; then\
       echo 'Installing JAX with GPU support';\
-      pip3 install --upgrade "jax[cuda12]";\
+      $PIP_PATH install --upgrade "jax[cuda12]";\
     fi
 
 # install pytorch and libtorch
 RUN if [ "${PYTORCH}" = "true" ]; then\
       echo 'Installing PyTorch';\
-      pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118;\
+      $PIP_PATH install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118;\
     fi
 
 WORKDIR /opt/sofa
@@ -142,12 +155,10 @@ RUN . /opt/ros/$ROS_DISTRO/setup.sh && \
 
 # install pip packages depending on local, cloned repositories
 # nml bag: useful for processing ROS2 bag files in Python
-RUN pip3 install -e ./src/nml_bag
+RUN $PIP_PATH install -e ./src/nml_bag
 # install jax soft robot modelling if jax has been installed
 RUN if [ "${JAX}" = "true" ]; then\
-      wget -P /tmp/sympy http://ftp.de.debian.org/debian/pool/main/s/sympy/python3-sympy_1.11.1-1_all.deb;\
-      dpkg -i /tmp/sympy/python3-sympy_1.11.1-1_all.deb;\
-      pip3 install -e "./src/jsrm[dev, examples]";\
+      $PIP_PATH install -e "./src/jsrm[dev, examples]";\
     fi
 
 # install ros2-elastica dependencies
@@ -162,7 +173,7 @@ RUN if [ "${ELASTICA}" = "false" ]; then\
 
 # install hsa-planar-control package and its dependencies
 RUN if [ "${HSA}" = "true" ]; then\
-      pip3 install ./src/hsa_planar_control;\
+      $PIP_PATH install ./src/hsa_planar_control;\
     fi
 
 # build overlay source
@@ -178,6 +189,7 @@ RUN sed --in-place --expression \
       /ros_entrypoint.sh
 
 # Add sourcing of workspace to .bashrc
+RUN echo "source /opt/ros/colcon_venv/venv/bin/activate" >> ~/.bashrc
 RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
 RUN echo "source $OVERLAY_WS/install/setup.bash" >> ~/.bashrc
 RUN echo "source /usr/share/colcon_cd/function/colcon_cd.sh" >> ~/.bashrc
